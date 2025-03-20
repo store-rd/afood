@@ -1,376 +1,1283 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اكل مسموح بي وغير مسموح !</title>
+    <title>دليل الأطعمة المسموحة والممنوعة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9;
+        :root {
+            --primary-color: #38b2ac;
+            --primary-dark: #2c7a7b;
+            --danger-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #dd6b20;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --border-radius: 15px;
+            --box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            color: #333;
-            font-size: 16px;
+            box-sizing: border-box;
         }
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            width: 90%;
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #f6f9fc, #edf2f7);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 95%;
             max-width: 600px;
-            padding: 30px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .card-3d {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(2deg);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-3d::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, var(--primary-color), transparent);
+            z-index: -1;
+            transform: translateZ(-10px);
+            filter: blur(20px);
+            border-radius: var(--border-radius);
+            opacity: 0.4;
+        }
+
+        .card-3d:hover {
+            transform: perspective(1000px) rotateX(0deg) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: var(--primary-color);
             text-align: center;
-            transition: transform 0.3s ease;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), transparent);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .search-container {
+            position: relative;
             margin-bottom: 20px;
         }
-        .container:hover {
-            transform: translateY(-5px);
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 20px;
         }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 28px;
-            text-shadow: 1px 1px rgba(0,0,0,0.1);
-        }
+
         input[type="text"] {
             width: 100%;
-            padding: 18px;
-            margin: 20px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            padding: 16px 45px 16px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
             font-size: 18px;
-            transition: border-color 0.3s ease;
-            text-indent: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: #f8fafc;
+            transition: var(--transition);
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
         }
+
         input[type="text"]:focus {
-            border-color: #2ecc71;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.3);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.2);
+            background-color: white;
         }
+
+        input[type="text"]::placeholder {
+            color: #a0aec0;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         button {
-            width: 48%;
-            padding: 16px 24px;
-            background-color: #2ecc71;
-            color: white;
+            flex: 1;
+            padding: 15px;
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
             font-size: 16px;
-            transition: background-color 0.3s ease;
-            margin: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 4px 6px rgba(56, 178, 172, 0.2);
         }
+
         button:hover {
-            background-color: #27ae60;
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(56, 178, 172, 0.25);
         }
+
+        button:active {
+            transform: translateY(0);
+        }
+
         .result {
-            margin-top: 30px;
-            font-size: 22px;
-            position: relative;
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            font-size: 20px;
+            font-weight: 600;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease;
+            transform: translateY(20px);
+            transition: var(--transition);
         }
+
         .result.show {
             opacity: 1;
             transform: translateY(0);
         }
-        .allowed {
-            color: #2ecc71 !important;
+
+        .category-header {
+            background-color: #f0f5ff;
+            color: var(--primary-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 20px 0 15px;
+            font-weight: 700;
+            font-size: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .not-allowed {
-            color: #e74c3c !important;
+
+        .category-header.allowed {
+            background-color: #f0fff4;
+            color: var(--success-color);
         }
-        .suggestion {
-            margin-top: 10px;
-            color: #3498db;
-            font-style: italic;
+
+        .category-header.not-allowed {
+            background-color: #fff5f5;
+            color: var(--danger-color);
         }
-        .alert {
-            color: #e67e22;
-            font-weight: bold;
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background-color: currentColor;
         }
+
         .food-list {
             list-style-type: none;
             padding: 0;
-            margin-top: 30px;
-            overflow-y: auto;
+            margin: 0;
             max-height: 400px;
+            overflow-y: auto;
+            border-radius: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e0 #f7fafc;
         }
-        .food-section {
-            margin-bottom: 25px;
+
+        .food-list::-webkit-scrollbar {
+            width: 6px;
+            border-radius: 3px;
         }
-        .section-header {
-            background: #ecf0f1;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            font-size: 20px;
-            text-align: left;
-            position: relative;
+
+        .food-list::-webkit-scrollbar-track {
+            background: #f7fafc;
         }
-        .section-header::before {
-            content: '';
-            position: absolute;
-            left: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: inherit;
+
+        .food-list::-webkit-scrollbar-thumb {
+            background-color: #cbd5e0;
+            border-radius: 3px;
         }
+
         .food-item {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            margin: 10px 0;
-            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
-        .food-item:active {
+
+        .food-item::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: currentColor;
+        }
+
+        .food-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+
         .food-name {
+            font-weight: 500;
             font-size: 18px;
-            width: 70%;
-            text-align: right;
         }
+
         .food-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .allowed .food-status {
+            background-color: #f0fff4;
+            color: var(--success-color);
+        }
+
+        .not-allowed .food-status {
+            background-color: #fff5f5;
+            color: var(--danger-color);
+        }
+
+        .allowed {
+            color: var(--success-color);
+        }
+
+        .not-allowed {
+            color: var(--danger-color);
+        }
+
+        .food-icon {
+            margin-left: 10px;
+            font-size: 20px;
+        }
+
+        .subcategory {
             font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 4px;
+            color: #4a5568;
+            margin: 15px 10px 10px;
+            font-weight: 600;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 5px;
+        }
+
+        .suggestion {
+            margin-top: 15px;
+            background-color: #ebf8ff;
+            color: #3182ce;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 16px;
             text-align: center;
         }
-        .allowed .food-status {
-            background: #c6efd5;
-            color: #2ecc71;
+
+        .nutritional-info {
+            margin-top: 15px;
+            background-color: #f0fff4;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: right;
         }
-        .not-allowed .food-status {
-            background: #f8d7da;
-            color: #e74c3c;
+
+        .nutritional-info h3 {
+            color: var(--success-color);
+            margin-bottom: 10px;
+            font-size: 18px;
         }
+
+        .nutritional-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .nutritional-info li {
+            margin-bottom: 5px;
+            padding-right: 20px;
+            position: relative;
+        }
+
+        .nutritional-info li::before {
+            content: '•';
+            position: absolute;
+            right: 0;
+            color: var(--success-color);
+        }
+
+        .allergy-warning {
+            margin-top: 15px;
+            background-color: #feebc8;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            color: var(--warning-color);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background-color: #edf2f7;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .ai-response {
+            margin-top: 15px;
+            background-color: #f0f5ff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .ai-response h3 {
+            color: #4c51bf;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            margin: 20px auto;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            margin: 0 3px;
+            animation: loading 1.5s infinite ease-in-out;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes loading {
+            0%, 100% { transform: scale(0.3); opacity: 0.3; }
+            50% { transform: scale(1.0); opacity: 1; }
+        }
+
         @media (max-width: 600px) {
-            button {
-                width: 100%;
-                margin: 5px 0;
+            .button-container {
+                flex-direction: column;
             }
-            .section-header {
-                font-size: 18px;
+
+            h1 {
+                font-size: 24px;
             }
-            .section-header::before {
-                left: -8px;
-                width: 8px;
-                height: 8px;
+
+            .card-3d {
+                padding: 20px;
             }
+
+            .food-item {
+                padding: 12px;
+            }
+
             .food-name {
-                width: 65%;
+                font-size: 16px;
             }
+
+            .category-header {
+                font-size: 18px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
             .food-status {
-                font-size: 14px;
-                padding: 6px 12px;
-            }
-            .container {
-                padding: 25px;
+                font-size: 12px;
+                padding: 4px 8px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>اكل مسموح بي وغير مسموح !</h1>
-        <input type="text" id="foodSearch" placeholder="ابحث عن الطعام..." oninput="autoSearch()">
-        <div style="display: flex; justify-content: center; margin-top:20px;">
-            <button onclick="searchFood()">بحث</button>
-            <button onclick="showAllFoods()">عرض جميع الأطعمة</button>
+    <div class="app-container">
+        <div class="card-3d">
+            <h1>دليل الأطعمة المسموحة والممنوعة</h1>
+            
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="foodSearch" placeholder="ابحث عن طعام..." oninput="autoSearch()">
+            </div>
+            
+            <div class="button-container">
+                <button onclick="searchFood()">بحث</button>
+                <button onclick="showAllFoods()">عرض جميع الأطعمة</button>
+            </div>
+            
+            <div class="result" id="result"></div>
         </div>
-        <div class="result" id="result"></div>
-        <ul class="food-list" id="foodList"></ul>
+        
+        <div class="card-3d">
+            <div id="foodList" class="food-list"></div>
+        </div>
     </div>
+
     <script>
+        const notAllowedIngredients = [
+            "سمك", "بصل", "ثوم", "بهارات", "طماطم", "باذنجان", "فلفل", "فجل", "شبنت", 
+            "موز", "مشمش", "بطيخ", "كيوي", "كرز", "فراولة", "خوخ", "حمضيات", "بقوليات", 
+            "بيض", "حليب"
+        ];
+
         const foodData = {
             // غير مسموح
             "سمك": "غير مسموح",
+            "السمك": "غير مسموح",
             "السمج": "غير مسموح",
+            "سمج": "غير مسموح",
             "نساتل": "غير مسموح",
+            "النستلة": "غير مسموح",
             "حلويات": "غير مسموح",
+            "الحلويات": "غير مسموح",
             "معجنات": "غير مسموح",
+            "المعجنات": "غير مسموح",
             "سكاكر": "غير مسموح",
+            "السكاكر": "غير مسموح",
             "بصل": "غير مسموح",
+            "البصل": "غير مسموح",
             "ثوم": "غير مسموح",
+            "الثوم": "غير مسموح",
             "بهارات": "غير مسموح",
+            "البهارات": "غير مسموح",
             "طرشي": "غير مسموح",
+            "الطرشي": "غير مسموح",
             "ايس كريم": "غير مسموح",
+            "الآيس كريم": "غير مسموح",
             "حليب": "غير مسموح",
+            "الحليب": "غير مسموح",
             "طماطم": "غير مسموح",
+            "الطماطم": "غير مسموح",
             "جبس": "غير مسموح",
+            "الجبس": "غير مسموح",
             "باذنجان": "غير مسموح",
+            "الباذنجان": "غير مسموح",
             "فلفل": "غير مسموح",
+            "الفلفل": "غير مسموح",
             "اكل السوق الجاهز": "غير مسموح",
+            "أكل السوق الجاهز": "غير مسموح",
             "فجل": "غير مسموح",
+            "الفجل": "غير مسموح",
             "شبنت": "غير مسموح",
+            "الشبنت": "غير مسموح",
             "الحوامض": "غير مسموح",
+            "حوامض": "غير مسموح",
             "موز": "غير مسموح",
+            "الموز": "غير مسموح",
             "مشمش": "غير مسموح",
+            "المشمش": "غير مسموح",
             "بطيخ": "غير مسموح",
+            "البطيخ": "غير مسموح",
             "كيوي": "غير مسموح",
+            "الكيوي": "غير مسموح",
             "كرز": "غير مسموح",
+            "الكرز": "غير مسموح",
             "فراولة": "غير مسموح",
+            "الفراولة": "غير مسموح",
+            "فريز": "غير مسموح",
+            "الفريز": "غير مسموح",
             "خوخ": "غير مسموح",
+            "الخوخ": "غير مسموح",
             "الصاص": "غير مسموح",
+            "صاص": "غير مسموح",
             "الكجب": "غير مسموح",
+            "كجب": "غير مسموح",
+            "كاتشب": "غير مسموح",
+            "الكاتشب": "غير مسموح",
             "العمبة": "غير مسموح",
+            "عمبة": "غير مسموح",
             "المايونيز": "غير مسموح",
+            "مايونيز": "غير مسموح",
             "بيض": "غير مسموح",
+            "البيض": "غير مسموح",
             "حمضيات": "غير مسموح",
+            "الحمضيات": "غير مسموح",
             "بقوليات": "غير مسموح",
+            "البقوليات": "غير مسموح",
+            "ليمون": "غير مسموح",
+            "الليمون": "غير مسموح",
+            "الحامض": "غير مسموح",
+            "حامض": "غير مسموح",
+            "برتقال": "غير مسموح",
+            "البرتقال": "غير مسموح",
+            "ألبرتقال": "غير مسموح",
+            "جبن": "غير مسموح",
+            "الجبن": "غير مسموح",
+            "لبن": "غير مسموح",
+            "اللبن": "غير مسموح",
+            "زبادي": "غير مسموح",
+            "الزبادي": "غير مسموح",
+            "ببسي": "غير مسموح",
+            "الببسي": "غير مسموح",
+            "كوكاكولا": "غير مسموح",
+            "الكوكاكولا": "غير مسموح",
+            "المشروبات الغازية": "غير مسموح",
+            "مشروبات غازية": "غير مسموح",
+            "شوكولاتة": "غير مسموح",
+            "الشوكولاتة": "غير مسموح",
+            "شيبس": "غير مسموح",
+            "الشيبس": "غير مسموح",
+            "مقالي": "غير مسموح",
+            "المقالي": "غير مسموح",
+            "قهوة": "غير مسموح",
+            "القهوة": "غير مسموح",
+            
             // مسموح
             "العصائر الطبيعية": "مسموح",
+            "عصائر طبيعية": "مسموح",
+            "عصير طبيعي": "مسموح",
             "ركي": "مسموح",
+            "الركي": "مسموح",
             "توت": "مسموح",
-            "برتقال": "مسموح",
+            "التوت": "مسموح",
             "تفاح": "مسموح",
+            "التفاح": "مسموح",
+            "ألتفاح": "مسموح",
             "عنب": "مسموح",
+            "العنب": "مسموح",
+            "ألعنب": "مسموح",
             "اللالنكي": "مسموح",
+            "لالنكي": "مسموح",
             "اناناس": "مسموح",
+            "الاناناس": "مسموح",
+            "أناناس": "مسموح",
+            "الأناناس": "مسموح",
             "الو": "مسموح",
             "رمان": "مسموح",
+            "الرمان": "مسموح",
+            "ألرمان": "مسموح",
             "الكمثرى": "مسموح",
+            "كمثرى": "مسموح",
             "التين": "مسموح",
-            "التوت": "مسموح",
+            "تين": "مسموح",
             "الجوز الهندي": "مسموح",
+            "جوز هندي": "مسموح",
             "الجوافة": "مسموح",
+            "جوافة": "مسموح",
             "المانجو": "مسموح",
+            "مانجو": "مسموح",
+            "ألمانجو": "مسموح",
             "العرموط": "مسموح",
+            "عرموط": "مسموح",
             "الأفوكادو": "مسموح",
+            "أفوكادو": "مسموح",
+            "افوكادو": "مسموح",
             "الكوجة": "مسموح",
-            "المشمش": "مسموح",
+            "كوجة": "مسموح",
             "الدجاج": "مسموح",
+            "دجاج": "مسموح",
             "الخضروات": "مسموح",
+            "خضروات": "مسموح",
+            "خضار": "مسموح",
+            "الخضار": "مسموح",
             "الرز": "مسموح",
+            "رز": "مسموح",
+            "أرز": "مسموح",
+            "الأرز": "مسموح",
             "القمح": "مسموح",
+            "قمح": "مسموح",
             "الشعير": "مسموح",
+            "شعير": "مسموح",
             "العسل": "مسموح",
+            "عسل": "مسموح",
             "النخيل": "مسموح",
+            "نخيل": "مسموح",
             "الحبوب الكاملة": "مسموح",
+            "حبوب كاملة": "مسموح",
             "الحبوب الغنية بالبروتين": "مسموح",
+            "حبوب غنية بالبروتين": "مسموح",
             "الحليب الكامل الدسم": "مسموح",
+            "حليب كامل الدسم": "مسموح",
             "الشوفان": "مسموح",
+            "شوفان": "مسموح",
             "القروفت": "مسموح",
+            "قروفت": "مسموح",
             "المرق": "مسموح",
+            "مرق": "مسموح",
             "الصلصات الطبيعية": "مسموح",
+            "صلصات طبيعية": "مسموح",
             "الصابون الشعير": "مسموح",
-            "القهوة": "مسموح",
+            "صابون الشعير": "مسموح",
             "الشاي": "مسموح",
+            "شاي": "مسموح",
             "النوافذ": "مسموح",
+            "نوافذ": "مسموح",
             "اللحم المشوي": "مسموح",
+            "لحم مشوي": "مسموح",
             "الدجاج المشوي": "مسموح",
+            "دجاج مشوي": "مسموح",
             "الكباب": "مسموح",
+            "كباب": "مسموح",
             "القشري": "مسموح",
+            "قشري": "مسموح",
             "الرز المطبوخ": "مسموح",
+            "رز مطبوخ": "مسموح",
             "الخضروات الطازجة": "مسموح",
+            "خضروات طازجة": "مسموح",
             "الحلوى الطبيعية": "مسموح",
+            "حلوى طبيعية": "مسموح",
             "الحلوى الخالية من السكر": "مسموح",
+            "حلوى خالية من السكر": "مسموح",
             "اللوز": "مسموح",
+            "لوز": "مسموح",
             "البندق": "مسموح",
+            "بندق": "مسموح",
             "الفستق": "مسموح",
+            "فستق": "مسموح",
             "القرفة": "مسموح",
+            "قرفة": "مسموح",
             "الكبة": "مسموح",
+            "كبة": "مسموح",
             "المقدسة": "مسموح",
+            "مقدسة": "مسموح",
             "السمنج": "مسموح",
+            "سمنج": "مسموح",
             "المرق العراقي": "مسموح",
+            "مرق عراقي": "مسموح",
             "الحمص العراقي": "مسموح",
+            "حمص عراقي": "مسموح",
             "الخضروات المقلي": "مسموح",
+            "خضروات مقلية": "مسموح",
             "البقدونس": "مسموح",
+            "بقدونس": "مسموح",
             "العسل العراقي": "مسموح",
+            "عسل عراقي": "مسموح",
             "المرق البشاميل": "مسموح",
+            "مرق بشاميل": "مسموح",
             "الخبز العربي": "مسموح",
+            "خبز عربي": "مسموح",
             "الرز المطبوخ بالطريقة العراقية": "مسموح",
+            "رز مطبوخ بالطريقة العراقية": "مسموح",
             "الدجاج المقلي بالطريقة العراقية": "مسموح",
-            "اللحم المشوي بالطريقة العراقية": "مسموح"
+            "دجاج مقلي بالطريقة العراقية": "مسموح",
+            "اللحم المشوي بالطريقة العراقية": "مسموح",
+            "لحم مشوي بالطريقة العراقية": "مسموح",
+            
+            // إضافات أكلات عراقية
+            "دولمة": "مسموح",
+            "الدولمة": "مسموح",
+            "ألدولمة": "مسموح",
+            "برياني عراقي": "مسموح",
+            "البرياني العراقي": "مسموح",
+            "باچة": "مسموح",
+            "الباچة": "مسموح",
+            "كبة موصلية": "مسموح",
+            "الكبة الموصلية": "مسموح",
+            "قوزي": "مسموح",
+            "القوزي": "مسموح",
+            "تشريب": "مسموح",
+            "التشريب": "مسموح",
+            "مرگة باميا": "مسموح",
+            "المرگة باميا": "مسموح",
+            "چلو": "مسموح",
+            "الچلو": "مسموح",
+            "گص البستان": "مسموح",
+            "الگص البستان": "مسموح",
+            "بنجر": "مسموح",
+            "البنجر": "مسموح",
+            "شمندر": "مسموح",
+            "الشمندر": "مسموح",
+            "طرشانة": "مسموح",
+            "الطرشانة": "مسموح",
+            "كباب عراقي": "مسموح",
+            "الكباب العراقي": "مسموح",
+            "تمن باقلاء": "مسموح",
+            "التمن باقلاء": "مسموح",
+            "بامية": "مسموح",
+            "البامية": "مسموح",
+            "لحم بعجين": "مسموح",
+            "اللحم بعجين": "مسموح",
+            "برنجية": "مسموح",
+            "البرنجية": "مسموح",
+            "التمن باميا": "مسموح",
+            "تمن باميا": "مسموح",
+            "الكبة الحامض": "مسموح",
+            "كبة حامض": "مسموح",
+            "بنت الصحن": "مسموح",
+            "بنت صحن": "مسموح",
+            "الكليجة": "مسموح",
+            "كليجة": "مسموح",
+            "البهارات العراقية": "مسموح",
+            "بهارات عراقية": "مسموح",
+            "خبز التنور": "مسموح",
+            "خبز تنور": "مسموح",
+            "التمن باللحم": "مسموح",
+            "تمن باللحم": "مسموح",
+            "الرشتة": "مسموح",
+            "رشتة": "مسموح",
+            "الهريسة العراقية": "مسموح",
+            "هريسة عراقية": "مسموح",
+            "محشي ورق عنب": "مسموح",
+            "محشي": "مسموح",
+            "دهينة": "مسموح",
+            "الدهينة": "مسموح",
+            "سوربا": "مسموح",
+            "السوربا": "مسموح",
+            "شرمولة": "مسموح",
+            "الشرمولة": "مسموح",
+            "تتلي": "مسموح",
+            "التتلي": "مسموح",
+            "كرزات": "مسموح",
+            "الكرزات": "مسموح",
+            "تمن وخضار": "مسموح",
+            "التمن والخضار": "مسموح",
+            "كباب تكة": "مسموح",
+            "كباب التكة": "مسموح",
+            "سلطة الفتوش": "مسموح",
+            "فتوش": "مسموح",
+            
+            // فواكه جديدة
+            "تمر": "مسموح",
+            "التمر": "مسموح",
+            "ألتمر": "مسموح",
+            "التفاح الأخضر": "مسموح",
+            "تفاح أخضر": "مسموح",
+            "التوت البري": "مسموح",
+            "توت بري": "مسموح",
+            "النبق": "مسموح",
+            "نبق": "مسموح",
+            "السفرجل": "مسموح",
+            "سفرجل": "مسموح",
+            "الجريب فروت الأحمر": "مسموح",
+            "جريب فروت أحمر": "مسموح",
+            "الكاكي": "مسموح",
+            "كاكي": "مسموح",
+            "الرمان الحلو": "مسموح",
+            "رمان حلو": "مسموح",
+            "البلح": "مسموح",
+            "بلح": "مسموح",
+            "القشطة": "مسموح",
+            "قشطة": "مسموح",
+            "التنبل": "مسموح",
+            "تنبل": "مسموح",
+            "الأترج": "مسموح",
+            "أترج": "مسموح",
+            "الشليك": "مسموح",
+            "شليك": "مسموح",
+            "العنب الأخضر": "مسموح",
+            "عنب أخضر": "مسموح",
+            "البطيخ الأصفر": "مسموح",
+            "بطيخ أصفر": "مسموح",
+            "الكوسة": "مسموح", 
+            "كوسة": "مسموح",
+            "الجزر": "مسموح",
+            "جزر": "مسموح",
+            "اليقطين": "مسموح",
+            "يقطين": "مسموح",
+            "القرع": "مسموح",
+            "قرع": "مسموح",
+            "الخيار": "مسموح",
+            "خيار": "مسموح",
+            "التوت الأسود": "مسموح",
+            "توت أسود": "مسموح",
+            "الشوفان": "مسموح",
+            "شوفان": "مسموح",
+            "الحبة السوداء": "مسموح",
+            "حبة سوداء": "مسموح",
+            "بذور الكتان": "مسموح",
+            "الكينوا": "مسموح",
+            "كينوا": "مسموح",
+            "زيت الزيتون": "مسموح",
+            "زيت زيتون": "مسموح",
+            "زيتون": "مسموح",
+            "الزيتون": "مسموح",
+            "الزنجبيل": "مسموح",
+            "زنجبيل": "مسموح",
+            "ثمر الورد": "مسموح",
+            "الزعتر": "مسموح",
+            "زعتر": "مسموح",
+            "الخس": "مسموح",
+            "خس": "مسموح",
+            "تفاح ذهبي": "مسموح",
+            "التفاح الذهبي": "مسموح"
         };
-        function autoSearch() {
-            const query = document.getElementById('foodSearch').value.trim().toLowerCase();
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';
-            resultDiv.classList.remove('show');
-            if (query === '') return;
-            let found = false;
-            for (const key in foodData) {
-                const keyLower = key.toLowerCase();
-                if (keyLower.includes(query) || 
-                    keyLower.replace(/^(ال|أ)/, '').includes(query) || 
-                    keyLower.includes('ال' + query) || 
-                    keyLower.includes('أ' + query)) {
-                    found = true;
-                    const status = foodData[key];
-                    const icon = status === 'مسموح' ? '✅' : '❌';
-                    const colorClass = status === 'مسموح' ? 'allowed' : 'not-allowed';
-                    resultDiv.innerHTML = `
-                        <div class="${colorClass}">
-                            ${icon} الطعام ${key} هو: <span class="${colorClass}">${status}</span>
-                        </div>
-                    `;
-                    if (status === 'غير مسموح') {
-                        const suggestions = ["الدجاج", "الخضروات الطازجة", "الرز", "الخبز العربي"];
-                        const suggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
-                        resultDiv.innerHTML += `<div class="suggestion">بديل مسموح: ${suggestion}</div>`;
-                    }
-                    resultDiv.classList.add('show');
-                    document.getElementById('foodList').innerHTML = '';
-                    return;
+
+        // تصنيف الأكلات
+        const foodCategories = {
+            "أكلات عراقية": [
+                "دولمة", "برياني عراقي", "باچة", "كبة موصلية", "قوزي", "تشريب", 
+                "مرگة باميا", "چلو", "گص البستان", "بنجر", "شمندر", 
+                "طرشانة", "كباب عراقي", "تمن باقلاء", "بامية", "لحم بعجين", 
+                "برنجية", "تمن باميا", "كبة", "مرق عراقي", "حمص عراقي", 
+                "رز مطبوخ بالطريقة العراقية", "دجاج مقلي بالطريقة العراقية", 
+                "لحم مشوي بالطريقة العراقية", "كبة حامض", "بنت الصحن", "كليجة",
+                "خبز التنور", "تمن باللحم", "رشتة", "هريسة عراقية", 
+                "محشي ورق عنب", "دهينة", "سوربا", "شرمولة", "تتلي", 
+                "كرزات", "تمن وخضار", "كباب تكة", "فتوش"
+            ],
+            "فواكه": [
+                "تمر", "تفاح أخضر", "توت بري", "نبق", "سفرجل", 
+                "جريب فروت أحمر", "كاكي", "رمان حلو", "بلح", "قشطة", 
+                "تنبل", "أترج", "شليك", "توت", "تفاح", "عنب", "لالنكي", 
+                "اناناس", "الو", "رمان", "كمثرى", "تين", "توت", "جوافة", 
+                "مانجو", "عرموط", "أفوكادو", "كوجة", "عنب أخضر", "بطيخ أصفر",
+                "توت أسود", "تفاح ذهبي"
+            ],
+            "مشروبات": [
+                "عصائر طبيعية", "شاي", "ركي"
+            ],
+            "لحوم وبروتين": [
+                "دجاج", "لحم مشوي", "دجاج مشوي", "كباب", "حبوب غنية بالبروتين"
+            ],
+            "خضروات": [
+                "كوسة", "جزر", "يقطين", "قرع", "خيار", "بنجر", "شمندر", 
+                "خضروات طازجة", "بقدونس", "خس"
+            ],
+            "حبوب وأغذية أساسية": [
+                "رز", "قمح", "شعير", "حبوب كاملة", "شوفان", "رز مطبوخ", 
+                "خبز عربي", "كينوا", "حبة سوداء", "بذور الكتان"
+            ],
+            "مكسرات وبذور": [
+                "لوز", "بندق", "فستق", "جوز هندي"
+            ],
+            "توابل وزيوت": [
+                "زيت زيتون", "زيتون", "زنجبيل", "زعتر", "قرفة"
+            ],
+            "أخرى": [
+                "نخيل", "حليب كامل الدسم", "قروفت", "مرق", "صلصات طبيعية", 
+                "صابون الشعير", "نوافذ", "قشري", "حلوى طبيعية", 
+                "حلوى خالية من السكر", "مقدسة", "سمنج", "خضروات مقلية", 
+                "عسل", "عسل عراقي", "مرق بشاميل"
+            ]
+        };
+
+        // معلومات غذائية لبعض الأطعمة
+        const nutritionalInfo = {
+            "تفاح": {
+                "فوائد": ["غني بالألياف", "مضاد للأكسدة", "يحسن صحة القلب", "يساعد على تنظيم مستوى السكر في الدم"],
+                "سعرات": "52 سعرة حرارية لكل 100 غرام",
+                "فيتامينات": ["فيتامين C", "فيتامين K", "فيتامين B6"]
+            },
+            "رمان": {
+                "فوائد": ["غني بمضادات الأكسدة", "يحسن صحة القلب", "يقلل من الالتهاب", "يساعد في خفض ضغط الدم"],
+                "سعرات": "83 سعرة حرارية لكل 100 غرام",
+                "فيتامينات": ["فيتامين C", "فيتامين K", "حمض الفوليك"]
+            },
+            "تمر": {
+                "فوائد": ["غني بالألياف", "مصدر للطاقة", "غني بالمعادن مثل البوتاسيوم والمغنيسيوم", "يحسن صحة الجهاز الهضمي"],
+                "سعرات": "282 سعرة حرارية لكل 100 غرام",
+                "فيتامينات": ["فيتامين B6", "نياسين", "حمض البانتوثنيك"]
+            },
+            "دجاج": {
+                "فوائد": ["غني بالبروتين", "قليل الدهون", "يساعد في بناء العضلات", "مصدر للفيتامينات B"],
+                "سعرات": "165 سعرة حرارية لكل 100 غرام (مشوي بدون جلد)",
+                "نصائح": "يفضل إزالة الجلد وطهيه مشوياً أو مسلوقاً"
+            },
+            "رز": {
+                "فوائد": ["مصدر للطاقة", "سهل الهضم", "قليل الدهون", "خالي من الغلوتين"],
+                "سعرات": "130 سعرة حرارية لكل 100 غرام (مطبوخ)",
+                "نصائح": "يفضل الرز البني للحصول على المزيد من الألياف"
+            },
+            "لوز": {
+                "فوائد": ["غني بالبروتين والألياف", "مصدر جيد للدهون الصحية", "يحتوي على فيتامين E", "يساعد في خفض الكولسترول"],
+                "سعرات": "579 سعرة حرارية لكل 100 غرام",
+                "نصائح": "يكفي تناول حفنة صغيرة يومياً للاستفادة من فوائده"
+            },
+            "زيت زيتون": {
+                "فوائد": ["غني بالدهون الأحادية غير المشبعة", "مضاد للالتهابات", "يحسن صحة القلب", "غني بمضادات الأكسدة"],
+                "سعرات": "884 سعرة حرارية لكل 100 غرام",
+                "نصائح": "يفضل استخدامه في السلطات والأطباق الباردة"
+            },
+            "عسل": {
+                "فوائد": ["مضاد للبكتيريا", "مضاد للالتهابات", "يساعد في تخفيف السعال", "مصدر طبيعي للطاقة"],
+                "سعرات": "304 سعرة حرارية لكل 100 غرام",
+                "نصائح": "يستخدم باعتدال كبديل طبيعي للسكر"
+            }
+        };
+
+        // تحديد احتمالية الحساسية
+        const allergyPotential = {
+            "لوز": "متوسط - بعض الأشخاص يعانون من حساسية المكسرات",
+            "فستق": "عالي - من المكسرات الشائعة المسببة للحساسية",
+            "بندق": "عالي - من المكسرات الشائعة المسببة للحساسية",
+            "عسل": "منخفض - يحتمل حساسية نادرة من حبوب اللقاح",
+            "كينوا": "منخفض - بديل آمن للحبوب المسببة للحساسية",
+            "تفاح": "منخفض - نادراً ما يسبب الحساسية"
+        };
+
+        function normalizeArabicText(text) {
+            // تنظيف النص العربي - إزالة ال التعريف وتوحيد الهمزات
+            if (!text) return '';
+            
+            let normalized = text.trim().toLowerCase();
+            
+            // توحيد الهمزات (أ/إ/آ -> ا)
+            normalized = normalized.replace(/[أإآ]/g, 'ا');
+            
+            // إزالة ال التعريف إذا كانت في البداية
+            normalized = normalized.replace(/^ال/, '');
+            
+            return normalized;
+        }
+
+        function findFoodByNormalizedName(searchTerm) {
+            const normalizedSearch = normalizeArabicText(searchTerm);
+            
+            // البحث المباشر عن المصطلح
+            for (const [key, value] of Object.entries(foodData)) {
+                if (normalizeArabicText(key) === normalizedSearch) {
+                    return { key, value };
                 }
             }
-            if (!found && query !== '') {
-                resultDiv.innerHTML = `<span class="alert">لا يوجد نتائج مطابقة</span>`;
-                resultDiv.classList.add('show');
-                document.getElementById('foodList').innerHTML = '';
+            
+            // البحث الجزئي
+            for (const [key, value] of Object.entries(foodData)) {
+                if (normalizeArabicText(key).includes(normalizedSearch) || 
+                    normalizedSearch.includes(normalizeArabicText(key))) {
+                    return { key, value };
+                }
             }
+            
+            return null;
         }
+
+        function analyzeUnknownFood(foodName) {
+            // تحليل طعام غير موجود في القاعدة
+            let containsForbidden = false;
+            let forbiddenIngredients = [];
+            
+            // التحقق مما إذا كان اسم الطعام يحتوي على أي مكونات ممنوعة
+            for (const ingredient of notAllowedIngredients) {
+                if (normalizeArabicText(foodName).includes(normalizeArabicText(ingredient))) {
+                    containsForbidden = true;
+                    forbiddenIngredients.push(ingredient);
+                }
+            }
+            
+            return {
+                containsForbidden,
+                forbiddenIngredients,
+                status: containsForbidden ? "غير مسموح" : "مسموح على الأرجح",
+                reasoning: containsForbidden ? 
+                    `يحتوي على مكونات غير مسموحة: ${forbiddenIngredients.join(', ')}` : 
+                    "لا يحتوي على أي مكونات ممنوعة معروفة، لكن يرجى التحقق من المكونات الدقيقة"
+            };
+        }
+
+        function getIconForFood(food) {
+            const iconMap = {
+                "أكلات عراقية": "🍚",
+                "فواكه": "🍎",
+                "مشروبات": "🥤",
+                "لحوم وبروتين": "🍗",
+                "خضروات": "🥦",
+                "حبوب وأغذية أساسية": "🌾",
+                "مكسرات وبذور": "🥜",
+                "توابل وزيوت": "🧂",
+                "أخرى": "🍽️"
+            };
+
+            for (const category in foodCategories) {
+                if (foodCategories[category].includes(food)) {
+                    return iconMap[category] || "";
+                }
+            }
+            return "";
+        }
+
+        function getCategoryForFood(food) {
+            for (const category in foodCategories) {
+                if (foodCategories[category].includes(food)) {
+                    return category;
+                }
+            }
+            return "أخرى";
+        }
+
+        function autoSearch() {
+            const query = document.getElementById('foodSearch').value.trim();
+            if (!query) {
+                document.getElementById('result').innerHTML = '';
+                document.getElementById('result').classList.remove('show');
+                return;
+            }
+            
+            searchFood();
+        }
+
         function searchFood() {
-            autoSearch();
+            const query = document.getElementById('foodSearch').value.trim();
+            if (!query) return;
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            
+            // البحث في قاعدة البيانات المعروفة
+            const foundFood = findFoodByNormalizedName(query);
+            
+            if (foundFood) {
+                displayFoundFood(foundFood.key, foundFood.value, resultDiv);
+            } else {
+                // إذا لم يتم العثور عليه، استخدم وظيفة التحليل
+                resultDiv.innerHTML = `
+                    <div class="loading">
+                        جاري تحليل الطعام... 
+                        <div class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                `;
+                resultDiv.classList.add('show');
+                
+                // محاكاة تأخير معالجة الذكاء الاصطناعي
+                setTimeout(() => {
+                    const analysis = analyzeUnknownFood(query);
+                    displayAnalyzedFood(query, analysis, resultDiv);
+                }, 1500);
+            }
+            
+            document.getElementById('foodList').innerHTML = '';
         }
+
+        function displayFoundFood(foodName, status, resultDiv) {
+            const icon = status === 'مسموح' ? '✅' : '❌';
+            const colorClass = status === 'مسموح' ? 'allowed' : 'not-allowed';
+            const foodIcon = getIconForFood(foodName);
+            const category = getCategoryForFood(foodName);
+            
+            let html = `
+                <div class="${colorClass}">
+                    ${foodIcon} ${icon} <span class="food-name">${foodName}</span> 
+                    <br><span class="${colorClass}">${status}</span>
+                </div>
+            `;
+            
+            // إضافة المعلومات الغذائية إذا كانت متوفرة
+            if (nutritionalInfo[foodName] && status === 'مسموح') {
+                const info = nutritionalInfo[foodName];
+                html += `
+                    <div class="nutritional-info">
+                        <h3>معلومات غذائية:</h3>
+                        <ul>
+                            ${info.فوائد.map(benefit => `<li>${benefit}</li>`).join('')}
+                        </ul>
+                        <p>${info.سعرات || ''}</p>
+                        ${info.نصائح ? `<p><strong>نصيحة:</strong> ${info.نصائح}</p>` : ''}
+                    </div>
+                `;
+            }
+            
+            // إضافة تحذير الحساسية إذا كان متوفراً
+            if (allergyPotential[foodName]) {
+                html += `
+                    <div class="allergy-warning">
+                        <strong>تنبيه الحساسية:</strong> ${allergyPotential[foodName]}
+                    </div>
+                `;
+            }
+            
+            // إضافة اقتراحات إذا كان الطعام غير مسموح
+            if (status === 'غير مسموح') {
+                // اقتراح بدائل من نفس الفئة
+                let alternatives = [];
+                for (const cat in foodCategories) {
+                    if (foodCategories[cat].includes(foodName)) {
+                        const sameCategory = foodCategories[cat].filter(
+                            item => foodData[item] === 'مسموح'
+                        );
+                        if (sameCategory.length > 0) {
+                            alternatives = sameCategory.slice(0, 3);
+                            break;
+                        }
+                    }
+                }
+                
+                if (alternatives.length === 0) {
+                    // بدائل عامة
+                    alternatives = ["تفاح", "رز", "دجاج", "خيار", "رمان"];
+                }
+                
+                const randomAlternatives = alternatives.sort(() => 0.5 - Math.random()).slice(0, 2);
+                html += `
+                    <div class="suggestion">
+                        <strong>بدائل مسموحة:</strong> ${randomAlternatives.join('، ')}
+                    </div>
+                `;
+            }
+            
+            resultDiv.innerHTML = html;
+            resultDiv.classList.add('show');
+        }
+
+        function displayAnalyzedFood(foodName, analysis, resultDiv) {
+            const icon = analysis.status.includes('مسموح') ? '✅' : '❌';
+            const colorClass = analysis.status.includes('مسموح') ? 'allowed' : 'not-allowed';
+            
+            let html = `
+                <div class="ai-response">
+                    <h3>تحليل الطعام: ${foodName}</h3>
+                    <div class="${colorClass}">
+                        ${icon} <span class="${colorClass}">${analysis.status}</span>
+                    </div>
+                    <p style="margin-top: 10px;">${analysis.reasoning}</p>
+            `;
+            
+            if (analysis.containsForbidden) {
+                // اقتراح بدائل عامة
+                const alternatives = ["تفاح", "رز", "دجاج", "خيار", "رمان", "مانجو", "كوسة", "تمر"];
+                const randomAlternatives = alternatives.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                html += `
+                    <div class="suggestion" style="margin-top: 15px;">
+                        <strong>بدائل مسموحة:</strong> ${randomAlternatives.join('، ')}
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="allergy-warning" style="margin-top: 15px;">
+                        <strong>ملاحظة:</strong> هذا الطعام غير موجود في قاعدة بياناتنا، لكن يبدو أنه لا يحتوي على مكونات ممنوعة. ننصح بالتحقق من المكونات الدقيقة قبل تناوله.
+                    </div>
+                `;
+            }
+            
+            html += `</div>`;
+            resultDiv.innerHTML = html;
+            resultDiv.classList.add('show');
+        }
+
         function showAllFoods() {
             const foodList = document.getElementById('foodList');
             foodList.innerHTML = '';
-            // Show not allowed first
-            const notAllowed = Object.keys(foodData).filter(k => foodData[k] === 'غير مسموح').sort();
+            
+            // عرض قسم الأطعمة غير المسموحة
+            const notAllowed = Array.from(new Set(
+                Object.keys(foodData)
+                    .filter(k => foodData[k] === 'غير مسموح')
+                    .sort()
+            )).slice(0, 50); // نأخذ فقط 50 عنصر لتجنب التكرار
+            
             foodList.innerHTML += `
-                <div class="food-section">
-                    <div class="section-header not-allowed">غير مسموح</div>
+                <div class="category-header not-allowed">❌ غير مسموح (${notAllowed.length}+)</div>
+                <div class="food-items-container">
                     ${notAllowed.map(key => `
-                        <li class="food-item">
-                            <div class="food-name">${key}</div>
-                            <div class="food-status not-allowed">${foodData[key]}</div>
-                        </li>
+                        <div class="food-item not-allowed">
+                            <span class="food-name">${key}</span>
+                            <span class="food-status not-allowed">${foodData[key]}</span>
+                        </div>
                     `).join('')}
                 </div>
             `;
-            // Show allowed next
-            const allowed = Object.keys(foodData).filter(k => foodData[k] === 'مسموح').sort();
-            foodList.innerHTML += `
-                <div class="food-section">
-                    <div class="section-header allowed">مسموح</div>
-                    ${allowed.map(key => `
-                        <li class="food-item">
-                            <div class="food-name">${key}</div>
-                            <div class="food-status allowed">${foodData[key]}</div>
-                        </li>
-                    `).join('')}
-                </div>
-            `;
+            
+            // عرض قسم الأطعمة المسموحة مصنفة
+            foodList.innerHTML += `<div class="category-header allowed">✅ مسموح</div>`;
+            
+            // عرض الأطعمة المسموحة مصنفة حسب الفئات
+            for (const category in foodCategories) {
+                // إنشاء قائمة بدون تكرار
+                const uniqueCategoryItems = Array.from(new Set(
+                    foodCategories[category].filter(item => {
+                        const found = Object.keys(foodData).find(k => 
+                            normalizeArabicText(k) === normalizeArabicText(item) && foodData[k] === 'مسموح'
+                        );
+                        return found;
+                    })
+                ));
+                
+                if (uniqueCategoryItems.length > 0) {
+                    foodList.innerHTML += `
+                        <div class="subcategory">${getIconForFood(uniqueCategoryItems[0])} ${category} (${uniqueCategoryItems.length})</div>
+                        <div class="food-items-container">
+                            ${uniqueCategoryItems.sort().map(key => `
+                                <div class="food-item allowed" onclick="showFoodDetails('${key}')">
+                                    <span class="food-name">${key}</span>
+                                    <span class="food-status allowed">مسموح</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function showFoodDetails(foodName) {
+            const resultDiv = document.getElementById('result');
+            displayFoundFood(foodName, 'مسموح', resultDiv);
+            
+            // تمرير إلى أعلى الصفحة لرؤية التفاصيل
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>

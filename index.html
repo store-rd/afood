@@ -2,1790 +2,827 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الأطعمة المسموحة والممنوعة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>سمنر الأرض: الزلازل | Earth Seminar: Earthquakes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --primary-color: #38b2ac;
-            --primary-dark: #2c7a7b;
-            --danger-color: #e53e3e;
-            --success-color: #38a169;
-            --warning-color: #dd6b20;
-            --bg-color: #f7fafc;
-            --card-bg: #ffffff;
-            --text-color: #2d3748;
-            --border-radius: 15px;
-            --box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Inter:wght@400;600;800&display=swap');
+        
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #f6f9fc, #edf2f7);
-            color: var(--text-color);
-            min-height: 100vh;
-            padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background-color: #fafaf9;
+            color: #292524;
+            overflow-x: hidden;
         }
 
-        .app-container {
-            width: 95%;
-            max-width: 600px;
-            margin: 0 auto;
-            perspective: 1000px;
+        /* تحسينات الهاتف: إخفاء شريط التمرير الأفقي */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
-        .card-3d {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 25px;
-            margin-bottom: 30px;
-            transform-style: preserve-3d;
-            transform: perspective(1000px) rotateX(2deg);
-            transition: var(--transition);
+        .chart-container {
             position: relative;
-            overflow: hidden;
-        }
-
-        .card-3d::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(45deg, var(--primary-color), transparent);
-            z-index: -1;
-            transform: translateZ(-10px);
-            filter: blur(20px);
-            border-radius: var(--border-radius);
-            opacity: 0.4;
-        }
-
-        .card-3d:hover {
-            transform: perspective(1000px) rotateX(0deg) translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-        }
-
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 28px;
-            font-weight: 700;
-            position: relative;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h1::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary-color), transparent);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
-        .search-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0aec0;
-            font-size: 20px;
-        }
-
-        input[type="text"] {
             width: 100%;
-            padding: 16px 45px 16px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: var(--border-radius);
-            font-size: 18px;
-            background-color: #f8fafc;
-            transition: var(--transition);
-            color: var(--text-color);
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.2);
-            background-color: white;
-        }
-
-        input[type="text"]::placeholder {
-            color: #a0aec0;
-        }
-
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: var(--border-radius);
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Tajawal', sans-serif;
-            box-shadow: 0 4px 6px rgba(56, 178, 172, 0.2);
-        }
-
-        button:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(56, 178, 172, 0.25);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .result {
-            text-align: center;
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin: 20px 0;
-            font-size: 20px;
-            font-weight: 600;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-
-        .result.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .category-header {
-            background-color: #f0f5ff;
-            color: var(--primary-color);
-            padding: 15px;
-            border-radius: var(--border-radius);
-            margin: 20px 0 15px;
-            font-weight: 700;
-            font-size: 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .category-header.allowed {
-            background-color: #f0fff4;
-            color: var(--success-color);
-        }
-
-        .category-header.not-allowed {
-            background-color: #fff5f5;
-            color: var(--danger-color);
-        }
-
-        .category-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 6px;
-            height: 100%;
-            background-color: currentColor;
-        }
-
-        .food-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 35vh;
             max-height: 400px;
-            overflow-y: auto;
-            border-radius: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e0 #f7fafc;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
         }
 
-        .food-list::-webkit-scrollbar {
-            width: 6px;
-            border-radius: 3px;
+        /* دعم تبديل اللغات */
+        .lang-en { display: none; }
+        html[dir="ltr"] .lang-en { display: block; }
+        html[dir="ltr"] .lang-ar { display: none; }
+        html[dir="ltr"] body { font-family: 'Inter', sans-serif; }
+
+        .nav-active {
+            background-color: #d97706 !important;
+            color: white !important;
+            font-weight: bold;
         }
 
-        .food-list::-webkit-scrollbar-track {
-            background: #f7fafc;
-        }
-
-        .food-list::-webkit-scrollbar-thumb {
-            background-color: #cbd5e0;
-            border-radius: 3px;
-        }
-
-        .food-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: var(--border-radius);
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: var(--transition);
+        /* نموذج طبقات الأرض التفاعلي */
+        .earth-origin-model {
             position: relative;
-            overflow: hidden;
+            width: 100%;
+            max-width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            border-bottom: 2px solid #78716c;
+            display: flex;
+            justify-content: center;
+        }
+        .surface { position: absolute; bottom: 0; width: 100%; height: 2px; background: #444; }
+        .epicenter-dot { position: absolute; bottom: -6px; width: 14px; height: 14px; background: #dc2626; border-radius: 50%; z-index: 10; }
+        .focus-dot { position: absolute; bottom: -100px; width: 20px; height: 20px; background: #b91c1c; border-radius: 50%; z-index: 10; box-shadow: 0 0 15px rgba(185, 28, 28, 0.8); }
+        .wave { position: absolute; bottom: -100px; border-radius: 50%; border: 2px dashed #f59e0b; animation: ripple 3s infinite; }
+        .wave:nth-child(1) { width: 50px; height: 50px; transform: translate(0, 50%); animation-delay: 0s; }
+        .wave:nth-child(2) { width: 100px; height: 100px; transform: translate(0, 50%); animation-delay: 1s; }
+        .wave:nth-child(3) { width: 150px; height: 150px; transform: translate(0, 50%); animation-delay: 2s; }
+
+        @keyframes ripple {
+            0% { width: 20px; height: 20px; opacity: 1; transform: translate(0, 50%); }
+            100% { width: 250px; height: 250px; opacity: 0; transform: translate(0, 50%); }
         }
 
-        .food-item::before {
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تحسينات واجهة الاختبار الحديثة */
+        .quiz-option-btn {
+            transition: all 0.2s ease;
+        }
+        .quiz-option-btn.selected {
+            border-color: #d97706;
+            background-color: #fffbeb;
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.1), 0 2px 4px -1px rgba(217, 119, 6, 0.06);
+        }
+        .quiz-option-btn.selected .radio-circle {
+            border-color: #d97706;
+            background-color: #d97706;
+        }
+        .quiz-option-btn.selected .radio-circle::after {
             content: '';
             position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background-color: currentColor;
-        }
-
-        .food-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .food-name {
-            font-weight: 500;
-            font-size: 18px;
-        }
-
-        .food-status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .allowed .food-status {
-            background-color: #f0fff4;
-            color: var(--success-color);
-        }
-
-        .not-allowed .food-status {
-            background-color: #fff5f5;
-            color: var(--danger-color);
-        }
-
-        .allowed {
-            color: var(--success-color);
-        }
-
-        .not-allowed {
-            color: var(--danger-color);
-        }
-
-        .food-icon {
-            margin-left: 10px;
-            font-size: 20px;
-        }
-
-        .subcategory {
-            font-size: 16px;
-            color: #4a5568;
-            margin: 15px 10px 10px;
-            font-weight: 600;
-            border-bottom: 2px solid #edf2f7;
-            padding-bottom: 5px;
-        }
-
-        .suggestion {
-            margin-top: 15px;
-            background-color: #ebf8ff;
-            color: #3182ce;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .nutritional-info {
-            margin-top: 15px;
-            background-color: #f0fff4;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        .nutritional-info h3 {
-            color: var(--success-color);
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .nutritional-info ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .nutritional-info li {
-            margin-bottom: 5px;
-            padding-right: 20px;
-            position: relative;
-        }
-
-        .nutritional-info li::before {
-            content: '•';
-            position: absolute;
-            right: 0;
-            color: var(--success-color);
-        }
-
-        .details-info {
-            margin-top: 15px;
-            background-color: #fff8f0;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        .details-info h3 {
-            color: var(--warning-color);
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .details-info ul {
-            list-style-type: none;
-            padding: 0;
-            margin-right: 20px;
-        }
-
-        .details-info li {
-            margin-bottom: 7px;
-            padding-right: 20px;
-            position: relative;
-        }
-
-        .details-info li::before {
-            content: '•';
-            position: absolute;
-            right: 0;
-            color: var(--warning-color);
-        }
-
-        .allergy-warning {
-            margin-top: 15px;
-            background-color: #feebc8;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            color: var(--warning-color);
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            background-color: #edf2f7;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            color: #4a5568;
-        }
-
-        .tab.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .tab-content {
-            margin-top: 15px;
-            max-height: 450px;
-            overflow-y: auto;
-            border-radius: var(--border-radius);
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e0 #f7fafc;
-        }
-
-        .food-items-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .ai-response {
-            margin-top: 15px;
-            background-color: #f0f5ff;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        .ai-response h3 {
-            color: #4c51bf;
-            margin-bottom: 10px;
-        }
-
-        .loading {
-            margin: 20px auto;
-            text-align: center;
-            color: var(--primary-color);
-        }
-
-        .loading-dots {
-            display: inline-block;
-        }
-
-        .loading-dots span {
-            display: inline-block;
             width: 8px;
             height: 8px;
+            background: white;
             border-radius: 50%;
-            background-color: var(--primary-color);
-            margin: 0 3px;
-            animation: loading 1.5s infinite ease-in-out;
-        }
-
-        .loading-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loading-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes loading {
-            0%, 100% { transform: scale(0.3); opacity: 0.3; }
-            50% { transform: scale(1.0); opacity: 1; }
-        }
-
-        @media (max-width: 600px) {
-            .button-container {
-                flex-direction: column;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .card-3d {
-                padding: 20px;
-            }
-
-            .food-item {
-                padding: 12px;
-            }
-
-            .food-name {
-                font-size: 16px;
-            }
-
-            .category-header {
-                font-size: 18px;
-                padding: 12px;
-            }
-
-            .food-items-container {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-        }
-
-        @media (max-width: 400px) {
-            .food-status {
-                font-size: 12px;
-                padding: 4px 8px;
-            }
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
-<body>
-    <div class="app-container">
-        <div class="card-3d">
-            <h1>دليل الأطعمة المسموحة والممنوعة ANO-V.1.0</h1>
-            
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="foodSearch" placeholder="ابحث عن طعام..." oninput="autoSearch()">
+<body class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- القائمة الجانبية: ثابتة في الأعلى للهاتف، وعلى الجانب للديسكتوب -->
+    <aside class="sticky top-0 w-full md:w-64 md:h-screen bg-stone-900 text-stone-100 flex flex-col shadow-xl z-30 flex-shrink-0">
+        <div class="p-4 md:p-6 bg-stone-950 text-center flex flex-row md:flex-col items-center md:items-center justify-between md:justify-start">
+            <div class="flex items-center gap-3 md:flex-col">
+                <div class="text-3xl md:text-4xl">🌍</div>
+                <div class="text-start md:text-center">
+                    <h1 class="text-lg md:text-xl font-bold lang-ar">سمنر الأرض: الزلازل</h1>
+                    <h1 class="text-lg md:text-xl font-bold lang-en">Earth Seminar</h1>
+                </div>
             </div>
-            
-            <div class="button-container">
-                <button onclick="searchFood()">بحث</button>
-                <button onclick="showAllFoods()">عرض جميع الأطعمة</button>
-            </div>
-            
-            <div class="result" id="result"></div>
+            <!-- زر التبديل انتقل للأعلى في الهاتف لتوفير المساحة -->
+            <button id="langToggle" class="bg-stone-700 hover:bg-stone-600 px-3 py-1.5 md:mt-4 rounded-full text-xs md:text-sm font-semibold transition shadow-inner">
+                <span class="lang-ar">English</span>
+                <span class="lang-en">العربية</span>
+            </button>
         </div>
+
+        <!-- قائمة الأزرار: قابلة للتمرير الأفقي في الهاتف -->
+        <nav class="flex-1 p-2 space-y-0 md:space-y-1 flex md:block flex-row overflow-x-auto no-scrollbar md:overflow-y-auto scroll-smooth snap-x">
+            <button data-target="sec-intro" class="nav-btn nav-active snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">👋 1. المقدمة</span>
+                <span class="lang-en">👋 1. Introduction</span>
+            </button>
+            <button data-target="sec-definition" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">❓ 2. ما هو الزلزال؟</span>
+                <span class="lang-en">❓ 2. What is it?</span>
+            </button>
+            <button data-target="sec-causes" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">💥 3. الأسباب</span>
+                <span class="lang-en">💥 3. Causes</span>
+            </button>
+            <button data-target="sec-origin" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">🎯 4. نقطة البداية</span>
+                <span class="lang-en">🎯 4. Origin</span>
+            </button>
+            <button data-target="sec-damages" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">🏚️ 5. الأضرار</span>
+                <span class="lang-en">🏚️ 5. Damages</span>
+            </button>
+            <button data-target="sec-instruments" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">📉 6. القياس</span>
+                <span class="lang-en">📉 6. Instruments</span>
+            </button>
+            <button data-target="sec-prevention" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">🛡️ 7. الوقاية</span>
+                <span class="lang-en">🛡️ 7. Prevention</span>
+            </button>
+            <button data-target="sec-conclusion" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-transparent hover:bg-stone-800">
+                <span class="lang-ar">📌 8. الخاتمة</span>
+                <span class="lang-en">📌 8. Conclusion</span>
+            </button>
+            <!-- الزر للاختبار -->
+            <button data-target="sec-quiz" class="nav-btn snap-start flex-shrink-0 w-auto md:w-full text-start px-4 py-3 rounded-lg transition whitespace-nowrap md:whitespace-normal bg-stone-800 text-amber-400 hover:bg-stone-700 border border-amber-600 md:mt-4">
+                <span class="lang-ar">🧠 9. اختبار تفاعلي</span>
+                <span class="lang-en">🧠 9. Interactive Quiz</span>
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-4 md:p-10 lg:p-12 overflow-y-auto relative bg-stone-50">
         
-        <div class="card-3d">
-            <div class="tabs">
-                <div class="tab active" onclick="showTab('allowed')">مسموح</div>
-                <div class="tab" onclick="showTab('not-allowed')">غير مسموح</div>
-                <div class="tab" onclick="showTab('categories')">التصنيفات</div>
+        <!-- المقدمة -->
+        <section id="sec-intro" class="content-section fade-in flex flex-col justify-center items-center min-h-[70vh] text-center">
+            <div class="bg-white p-6 md:p-10 rounded-2xl shadow-lg border border-stone-200 max-w-3xl w-full">
+                <div class="text-6xl mb-6">❤️</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-4 lang-ar">هلا وميت هلا بشطورتي وروحي وانفاسي</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-4 lang-en">Welcome to</h2>
+                
+                <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-2 lang-ar">متاكد واثق بيج راح قدمين شي يخبل</h3>
+                <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-2 lang-en">❤️</h3>
+                
+                <div class="my-6 md:my-8 border-t border-stone-200 w-1/2 mx-auto"></div>
+                
+                <h1 class="text-3xl md:text-5xl font-black text-stone-900 mb-6 lang-ar">سمنر الأرض: الزلازل</h1>
+                <h1 class="text-3xl md:text-5xl font-black text-stone-900 mb-6 lang-en">Earth Seminar: Earthquakes</h1>
+                
+                <p class="text-stone-500 mt-4 md:mt-8 text-sm md:text-base lang-ar">استخدمي شريط التنقل لاستعراض المحتوى والوصول للاختبار التفاعلي.</p>
+                <p class="text-stone-500 mt-4 md:mt-8 text-sm md:text-base lang-en">Use the navigation bar to explore content and access the interactive quiz.</p>
             </div>
-            <div id="tabContent" class="tab-content"></div>
-        </div>
-        
-        <div class="card-3d">
-            <div id="foodList" class="food-list"></div>
-        </div>
-    </div>
+        </section>
+
+        <!-- الأقسام النظرية -->
+        <section id="sec-definition" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-amber-500 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">ما هو الزلزال؟</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">What is an Earthquake?</h2>
+            </div>
+            <p class="text-base md:text-lg text-stone-600 mb-6 md:mb-8 lang-ar">يقدم هذا القسم التعريف العلمي للظاهرة، موضحاً الآلية الفيزيائية للاهتزاز الأرضي بطريقة مبسطة.</p>
+            <p class="text-base md:text-lg text-stone-600 mb-6 md:mb-8 lang-en">This section provides the scientific definition of the phenomenon, explaining the physical mechanism of ground shaking simply.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-md border-l-4 border-amber-500 hover:-translate-y-1 transition duration-300">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">📳</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-ar">اهتزاز مفاجئ</h3>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-en">Sudden Shaking</h3>
+                    <p class="text-sm md:text-base text-stone-600 lang-ar">اهتزاز مفاجئ وسريع لسطح الأرض.</p>
+                    <p class="text-sm md:text-base text-stone-600 lang-en">A sudden, rapid shaking of the Earth's surface.</p>
+                </div>
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-md border-l-4 border-amber-600 hover:-translate-y-1 transition duration-300">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">⚡</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-ar">تحرير الطاقة</h3>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-en">Energy Release</h3>
+                    <p class="text-sm md:text-base text-stone-600 lang-ar">ينتج عن التحرير المفاجئ للطاقة المخزنة في القشرة الأرضية.</p>
+                    <p class="text-sm md:text-base text-stone-600 lang-en">Caused by the sudden release of energy stored in the Earth's crust.</p>
+                </div>
+                <div class="bg-white p-5 md:p-6 rounded-xl shadow-md border-l-4 border-amber-700 hover:-translate-y-1 transition duration-300">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">📡</div>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-ar">موجات زلزالية</h3>
+                    <h3 class="text-lg md:text-xl font-bold mb-2 lang-en">Seismic Waves</h3>
+                    <p class="text-sm md:text-base text-stone-600 lang-ar">يؤدي هذا التحرير إلى توليد موجات زلزالية تنتشر في جميع الاتجاهات.</p>
+                    <p class="text-sm md:text-base text-stone-600 lang-en">This release generates seismic waves that radiate in all directions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-causes" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-orange-500 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">ما سبب حدوث الزلزال؟</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">What Causes an Earthquake?</h2>
+            </div>
+            <p class="text-base md:text-lg text-stone-600 mb-6 md:mb-8 lang-ar">نستعرض هنا المحفزات الرئيسية للزلازل، مقسمة إلى أسباب طبيعية وأخرى ناتجة عن التدخل البشري.</p>
+            <p class="text-base md:text-lg text-stone-600 mb-6 md:mb-8 lang-en">Here we review the primary triggers of earthquakes, divided into natural causes and human-induced activities.</p>
+            <div class="space-y-4">
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow border border-stone-200 flex items-start gap-4">
+                    <div class="text-2xl md:text-3xl bg-orange-100 p-3 rounded-full text-orange-600 shrink-0">🧩</div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-ar">حركة الصفائح التكتونية</h3>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-en">Tectonic Plate Movement</h3>
+                        <p class="text-sm md:text-base text-stone-600 lang-ar">تصادم، تباعد، أو انزلاق كتل القشرة الأرضية العملاقة على طول الصدوع (التصدعات).</p>
+                        <p class="text-sm md:text-base text-stone-600 lang-en">Collision, separation, or sliding of massive crustal blocks along fault lines.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow border border-stone-200 flex items-start gap-4">
+                    <div class="text-2xl md:text-3xl bg-red-100 p-3 rounded-full text-red-600 shrink-0">🌋</div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-ar">الأنشطة البركانية</h3>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-en">Volcanic Activity</h3>
+                        <p class="text-sm md:text-base text-stone-600 lang-ar">حركة الصهارة (الماجما) داخل البراكين قبل الانفجار.</p>
+                        <p class="text-sm md:text-base text-stone-600 lang-en">Movement of magma inside volcanoes before an eruption.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-xl shadow border border-stone-200 flex items-start gap-4">
+                    <div class="text-2xl md:text-3xl bg-stone-200 p-3 rounded-full text-stone-700 shrink-0">🏗️</div>
+                    <div>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-ar">الأنشطة البشرية</h3>
+                        <h3 class="text-lg md:text-xl font-bold mb-1 lang-en">Human Activities</h3>
+                        <p class="text-sm md:text-base text-stone-600 lang-ar">مثل حقن السوائل في الأرض، إنشاء السدود الكبرى، أو التفجيرات النووية تحت الأرض.</p>
+                        <p class="text-sm md:text-base text-stone-600 lang-en">Such as fluid injection into the earth, large dam reservoirs, or underground nuclear explosions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-origin" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-red-600 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">من أين يبدأ الزلزال؟</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">Where Does the Earthquake Start?</h2>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-stone-200 flex flex-col items-center overflow-hidden">
+                <div class="earth-origin-model">
+                    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+                    <div class="surface"></div>
+                    <div class="epicenter-dot group relative cursor-pointer">
+                        <div class="absolute bottom-full mb-2 w-32 md:w-48 bg-stone-800 text-white text-xs md:text-sm p-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition pointer-events-none -translate-x-1/2 left-1/2 text-center">
+                            <span class="lang-ar">المركز السطحي</span>
+                            <span class="lang-en">Epicenter</span>
+                        </div>
+                    </div>
+                    <div class="focus-dot group relative cursor-pointer flex justify-center items-center text-white text-xs">
+                        <div class="absolute top-full mt-2 w-32 md:w-48 bg-stone-800 text-white text-xs md:text-sm p-2 rounded opacity-100 md:opacity-0 md:group-hover:opacity-100 transition pointer-events-none -translate-x-1/2 left-1/2 text-center z-20">
+                            <span class="lang-ar">البؤرة الزلزالية</span>
+                            <span class="lang-en">Focus (Hypocenter)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 w-full mt-16 md:mt-10">
+                    <div class="text-center md:text-start bg-red-50 p-4 rounded-lg border border-red-100">
+                        <h3 class="text-lg md:text-xl font-bold text-red-700 mb-2 lang-ar">📍 المركز السطحي</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-red-700 mb-2 lang-en">📍 Epicenter</h3>
+                        <p class="text-sm md:text-base text-stone-700 lang-ar">النقطة الموجودة على سطح الأرض مباشرة <strong>فوق البؤرة</strong>.</p>
+                        <p class="text-sm md:text-base text-stone-700 lang-en">The point on the surface directly <strong>above the focus</strong>.</p>
+                    </div>
+                    <div class="text-center md:text-start bg-amber-50 p-4 rounded-lg border border-amber-100">
+                        <h3 class="text-lg md:text-xl font-bold text-amber-700 mb-2 lang-ar">🎯 البؤرة (Focus)</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-amber-700 mb-2 lang-en">🎯 Focus</h3>
+                        <p class="text-sm md:text-base text-stone-700 lang-ar">النقطة العميقة التي يبدأ منها تمزق الصخور وتحرر الطاقة.</p>
+                        <p class="text-sm md:text-base text-stone-700 lang-en">The deep point where rock rupture starts and energy is released.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-damages" class="content-section hidden fade-in max-w-5xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-stone-800 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">الأضرار والأمثلة الواقعية</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">Damages & Examples</h2>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border border-stone-200">
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-4 lang-ar">⚠️ أشكال الأضرار</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-4 lang-en">⚠️ Forms of Damage</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl mt-1 shrink-0">🏢</span>
+                            <div>
+                                <strong class="text-base md:text-lg lang-ar">انهيار البنى التحتية:</strong>
+                                <strong class="text-base md:text-lg lang-en">Infrastructure Collapse:</strong>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-ar">تدمير المباني، الجسور، والطرق.</span>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-en">Destruction of buildings, bridges, and roads.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl mt-1 shrink-0">🌊</span>
+                            <div>
+                                <strong class="text-base md:text-lg lang-ar">تسونامي (Tsunami):</strong>
+                                <strong class="text-base md:text-lg lang-en">Tsunamis:</strong>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-ar">موجات بحرية عملاقة تنتج عن الزلازل تحت المحيطات.</span>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-en">Giant ocean waves triggered by underwater earthquakes.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl mt-1 shrink-0">⛰️</span>
+                            <div>
+                                <strong class="text-base md:text-lg lang-ar">انزلاقات أرضية وتسييل التربة:</strong>
+                                <strong class="text-base md:text-lg lang-en">Landslides & Liquefaction:</strong>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-ar">فقدان التربة لصلابتها.</span>
+                                <span class="block text-sm md:text-base text-stone-600 mt-1 lang-en">Soil losing its strength and stiffness.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg border border-stone-200 flex flex-col w-full overflow-hidden">
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-2 lang-ar">📊 مقارنة القوة</h3>
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-2 lang-en">📊 Magnitude Chart</h3>
+                    <div class="flex-1 w-full flex items-center justify-center mt-4">
+                        <div class="chart-container">
+                            <canvas id="magnitudeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-instruments" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-stone-600 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">أجهزة القياس</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">Measurement Instruments</h2>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg border border-stone-200 overflow-hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-stone-200 rtl:divide-x-reverse">
+                    <div class="p-6 md:p-8 text-center hover:bg-stone-50 transition">
+                        <div class="text-4xl md:text-5xl mb-4">📟</div>
+                        <h3 class="text-lg md:text-xl font-bold text-stone-800 mb-2 lang-ar">السيزموغراف</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-stone-800 mb-2 lang-en">Seismograph</h3>
+                        <p class="text-stone-600 text-xs md:text-sm lang-ar">الجهاز الأساسي الذي يسجل الاهتزازات.</p>
+                        <p class="text-stone-600 text-xs md:text-sm lang-en">Instrument that records vibrations.</p>
+                    </div>
+                    <div class="p-6 md:p-8 text-center hover:bg-amber-50 transition bg-white">
+                        <div class="text-4xl md:text-5xl mb-4">📈</div>
+                        <h3 class="text-lg md:text-xl font-bold text-amber-700 mb-2 lang-ar">مقياس ريختر</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-amber-700 mb-2 lang-en">Richter Scale</h3>
+                        <p class="text-stone-600 text-xs md:text-sm lang-ar">مقياس <strong>كمي</strong> للطاقة المتحررة.</p>
+                        <p class="text-stone-600 text-xs md:text-sm lang-en"><strong>Quantitative</strong> energy scale.</p>
+                    </div>
+                    <div class="p-6 md:p-8 text-center hover:bg-red-50 transition bg-white">
+                        <div class="text-4xl md:text-5xl mb-4">🏚️</div>
+                        <h3 class="text-lg md:text-xl font-bold text-red-700 mb-2 lang-ar">مقياس ميركالي</h3>
+                        <h3 class="text-lg md:text-xl font-bold text-red-700 mb-2 lang-en">Mercalli Scale</h3>
+                        <p class="text-stone-600 text-xs md:text-sm lang-ar">مقياس <strong>وصفي</strong> لشدة الأضرار.</p>
+                        <p class="text-stone-600 text-xs md:text-sm lang-en"><strong>Descriptive</strong> damage scale.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sec-prevention" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-green-600 pb-2 md:pb-4 inline-block">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">طرق الوقاية</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">Prevention Methods</h2>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg border border-stone-200 p-2 md:p-6">
+                <div class="flex flex-col sm:flex-row border-b border-stone-200 mb-4 sm:mb-6">
+                    <button id="tab-before" class="flex-1 py-3 px-2 text-center font-bold text-stone-500 border-b-4 sm:border-b-4 border-transparent hover:text-stone-800 transition text-sm md:text-base">
+                        <span class="lang-ar">🕒 قبل الزلزال</span>
+                        <span class="lang-en">🕒 Before</span>
+                    </button>
+                    <button id="tab-during" class="flex-1 py-3 px-2 text-center font-bold text-stone-500 border-b-4 border-transparent hover:text-stone-800 transition text-sm md:text-base">
+                        <span class="lang-ar">⚠️ أثناء الزلزال</span>
+                        <span class="lang-en">⚠️ During</span>
+                    </button>
+                    <button id="tab-after" class="flex-1 py-3 px-2 text-center font-bold text-stone-500 border-b-4 border-transparent hover:text-stone-800 transition text-sm md:text-base">
+                        <span class="lang-ar">✅ بعد الزلزال</span>
+                        <span class="lang-en">✅ After</span>
+                    </button>
+                </div>
+
+                <div id="content-before" class="safety-content p-2 md:p-4 min-h-[200px]">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 md:gap-4">
+                            <div class="bg-green-100 text-green-700 p-2 md:p-3 rounded-lg text-xl md:text-2xl shrink-0">📐</div>
+                            <div>
+                                <strong class="text-base md:text-lg block lang-ar">التصميم الهندسي:</strong>
+                                <strong class="text-base md:text-lg block lang-en">Engineering Design:</strong>
+                                <span class="text-sm md:text-base text-stone-600 lang-ar">بناء هياكل مقاومة للزلازل.</span>
+                                <span class="text-sm md:text-base text-stone-600 lang-en">Building earthquake-resistant structures.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="content-during" class="safety-content p-2 md:p-4 min-h-[200px] hidden">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 md:gap-4">
+                            <div class="bg-amber-100 text-amber-700 p-2 md:p-3 rounded-lg text-xl md:text-2xl shrink-0">🪑</div>
+                            <div>
+                                <strong class="text-base md:text-lg block lang-ar">قاعدة (انزل، احتمِ، تماسك):</strong>
+                                <strong class="text-base md:text-lg block lang-en">Drop, Cover, Hold on:</strong>
+                                <span class="text-sm md:text-base text-stone-600 lang-ar">تطبيق القاعدة تحت أثاث صلب لحماية الرأس والرقبة.</span>
+                                <span class="text-sm md:text-base text-stone-600 lang-en">Apply the rule under sturdy furniture to protect head/neck.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="content-after" class="safety-content p-2 md:p-4 min-h-[200px] hidden">
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3 md:gap-4">
+                            <div class="bg-stone-200 text-stone-700 p-2 md:p-3 rounded-lg text-xl md:text-2xl shrink-0">🚶‍♂️</div>
+                            <div>
+                                <strong class="text-base md:text-lg block lang-ar">الإخلاء الآمن:</strong>
+                                <strong class="text-base md:text-lg block lang-en">Safe Evacuation:</strong>
+                                <span class="text-sm md:text-base text-stone-600 lang-ar">إخلاء المبنى باستخدام السلالم بانتظام وعدم استخدام المصاعد نهائياً.</span>
+                                <span class="text-sm md:text-base text-stone-600 lang-en">Evacuate using stairs calmly, never use elevators.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الاختبار الحديث (Modern Interactive Quiz) -->
+        <section id="sec-quiz" class="content-section hidden fade-in max-w-4xl mx-auto">
+            <div class="mb-6 md:mb-8 border-b-2 border-amber-600 pb-2 md:pb-4 inline-block w-full md:w-auto text-center md:text-start">
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-ar">🧠 الاختبار الشامل</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-stone-800 lang-en">🧠 Comprehensive Quiz</h2>
+                <p class="text-stone-500 text-sm mt-2 lang-ar">خلي نختبر حلوة مالتي انتي كدددها ؟</p>
+                <p class="text-stone-500 text-sm mt-2 lang-en">Test your knowledge with 7 questions covering all topics.</p>
+            </div>
+
+            <!-- Quiz Application Container -->
+            <div class="bg-white rounded-3xl shadow-xl border border-stone-200 overflow-hidden relative min-h-[450px] flex flex-col">
+                <!-- Progress Bar -->
+                <div class="bg-stone-100 w-full h-2.5">
+                    <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500 w-0"></div>
+                </div>
+
+                <div class="p-6 md:p-8 lg:p-10 flex-1 flex flex-col justify-center" id="quiz-content">
+                    <!-- Dynamic Content will be injected here via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- الخاتمة -->
+        <section id="sec-conclusion" class="content-section hidden fade-in max-w-4xl mx-auto flex items-center min-h-[70vh]">
+            <div class="bg-stone-900 text-white p-8 md:p-16 rounded-3xl shadow-2xl w-full text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500"></div>
+                <div class="text-5xl md:text-6xl mb-6 md:mb-8">📌</div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 lang-ar">الخاتمة</h2>
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 lang-en">Conclusion</h2>
+                <p class="text-lg md:text-2xl leading-relaxed text-stone-300 mb-6 md:mb-8 font-light lang-ar">
+                    الزلازل ظاهرة طبيعية <strong class="text-amber-400">لا يمكن التنبؤ بوقت حدوثها بدقة ولا يمكن منعها</strong>، لكن بالوعي نقلل الأضرار.
+                </p>
+                <p class="text-lg md:text-2xl leading-relaxed text-stone-300 mb-6 md:mb-8 font-light lang-en">
+                    Earthquakes are natural phenomena that <strong class="text-amber-400">cannot be accurately predicted or prevented</strong>, but awareness saves lives.
+                </p>
+            </div>
+        </section>
+
+    </main>
 
     <script>
-        // قائمة المكونات غير المسموحة للتحقق
-        const notAllowedIngredients = [
-            "سمك", "بصل", "ثوم", "بهارات", "طماطم", "باذنجان", "فلفل", "فجل", "شبنت", 
-            "موز", "مشمش", "بطيخ", "كيوي", "كرز", "فراولة", "خوخ", "حمضيات", "بقوليات", 
-            "بيض", "حليب", "كركم", "كاري", "كمون", "قرفة", "زعفران", "هيل", 
-            "زنجبيل", "فلفل أسود", "فلفل أحمر", "حمص", "فاصوليا", "عدس", "فول", "لوبيا"
+        // إعدادات المتغيرات العامة للغة
+        let isArabic = true;
+        
+        // دالة تبديل اللغة
+        document.getElementById('langToggle').addEventListener('click', () => {
+            isArabic = !isArabic;
+            document.documentElement.setAttribute('dir', isArabic ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', isArabic ? 'ar' : 'en');
+            
+            if(window.magnitudeChartInstance) {
+                updateChartLanguage();
+            }
+            
+            // تحديث نصوص الأزرار والنتائج الديناميكية في الاختبار إذا كنا داخله
+            updateDynamicQuizText();
+        });
+
+        // التنقل بين الأقسام
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.content-section');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => {
+                    b.classList.remove('nav-active', 'bg-stone-800', 'text-amber-400', 'border-amber-600');
+                    b.classList.add('bg-transparent', 'hover:bg-stone-800');
+                });
+                
+                btn.classList.add('nav-active');
+                btn.classList.remove('bg-transparent', 'hover:bg-stone-800');
+
+                sections.forEach(sec => {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('fade-in');
+                });
+
+                const targetId = btn.getAttribute('data-target');
+                const targetSec = document.getElementById(targetId);
+                targetSec.classList.remove('hidden');
+                
+                void targetSec.offsetWidth;
+                targetSec.classList.add('fade-in');
+
+                if(targetId === 'sec-damages') initChart();
+                if(targetId === 'sec-quiz' && currentQuestionIndex === -1) startQuiz(); // بدء الاختبار عند فتحه لأول مرة
+
+                if(window.innerWidth < 768) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // تبويبات الوقاية
+        const tabs = [
+            { btn: document.getElementById('tab-before'), content: document.getElementById('content-before'), color: 'border-green-500' },
+            { btn: document.getElementById('tab-during'), content: document.getElementById('content-during'), color: 'border-amber-500' },
+            { btn: document.getElementById('tab-after'), content: document.getElementById('content-after'), color: 'border-stone-500' }
         ];
 
-        // تفاصيل الأطعمة غير المسموحة
-        const forbiddenFoodDetails = {
-            "بقوليات": {
-                "وصف": "البقوليات هي أنواع من البذور الصالحة للأكل وتشمل:",
-                "أمثلة": [
-                    "الفاصوليا (البيضاء، الحمراء، السوداء، الخضراء)",
-                    "الحمص",
-                    "العدس (الأحمر، الأصفر، الأخضر، الأسود)",
-                    "الفول بأنواعه",
-                    "البازلاء (الخضراء، الصفراء)",
-                    "اللوبيا",
-                    "الترمس",
-                    "الماش",
-                    "الصويا ومنتجاتها",
-                    "الفول السوداني (الفستق العبيد)"
-                ],
-                "سبب المنع": "قد تسبب مشاكل في الهضم وتهيج للجهاز الهضمي"
-            },
-            "أكل السوق الجاهز": {
-                "وصف": "هي الأطعمة المجهزة مسبقاً وتشمل:",
-                "أمثلة": [
-                    "الوجبات السريعة (كنتاكي، ماكدونالدز، برغر كنج)",
-                    "البيتزا الجاهزة",
-                    "الكبة المجمدة",
-                    "البرغر المجمد",
-                    "النقانق (السجق)",
-                    "اللحوم المصنعة (المرتديلا، اللانشون)",
-                    "الأطعمة المعلبة",
-                    "المخللات الجاهزة",
-                    "البطاطس المقلية الجاهزة",
-                    "الحلويات الجاهزة",
-                    "المعجنات الجاهزة",
-                    "السمبوسة الجاهزة",
-                    "الشاورما الجاهزة",
-                    "الدجاج المجمد المتبل",
-                    "الأرز الجاهز (أكياس الميكروويف)",
-                    "الصلصات الجاهزة",
-                    "المرق الجاهز (مكعبات المرق)"
-                ],
-                "سبب المنع": "تحتوي على مواد حافظة ومنكهات صناعية ومكونات غير موصى بها"
-            },
-            "بهارات": {
-                "وصف": "التوابل والبهارات المختلفة وتشمل:",
-                "أمثلة": [
-                    "الكركم",
-                    "الكاري",
-                    "الفلفل الأسود",
-                    "الفلفل الأحمر",
-                    "الشطة",
-                    "الكمون",
-                    "الكزبرة",
-                    "القرنفل",
-                    "الهيل",
-                    "الزنجبيل المطحون",
-                    "الزعفران",
-                    "جوزة الطيب",
-                    "القرفة",
-                    "الريحان المجفف",
-                    "بهارات السبع بهارات",
-                    "بهارات البرياني",
-                    "بهارات المندي",
-                    "بهارات المقلوبة",
-                    "البهارات المخلوطة",
-                    "الخلطات التجارية للبهارات",
-                    "مسحوق الثوم",
-                    "مسحوق البصل",
-                    "البابريكا",
-                    "الحلبة",
-                    "اليانسون"
-                ],
-                "سبب المنع": "قد تسبب تهيجاً في الجهاز الهضمي وتؤثر على الحالة الصحية"
-            },
-            "منتجات الألبان": {
-                "وصف": "منتجات الحليب ومشتقاتها وتشمل:",
-                "أمثلة": [
-                    "الحليب بأنواعه",
-                    "اللبن",
-                    "الزبادي",
-                    "الجبن بأنواعه",
-                    "القشدة",
-                    "الزبدة",
-                    "القشطة",
-                    "الآيس كريم",
-                    "الحلويات التي تحتوي على الحليب"
-                ],
-                "سبب المنع": "قد تسبب حساسية وإزعاجاً في الجهاز الهضمي"
-            },
-            "الحمضيات": {
-                "وصف": "الفواكه الحمضية ومنها:",
-                "أمثلة": [
-                    "الليمون",
-                    "البرتقال",
-                    "اليوسفي (المندرين)",
-                    "الجريب فروت",
-                    "الكمكوات",
-                    "البوملي"
-                ],
-                "سبب المنع": "تحتوي على نسبة عالية من الأحماض التي قد تهيج المعدة والأمعاء"
-            }
-        };
-
-        // قاعدة بيانات الأطعمة (مسموح وغير مسموح)
-        const foodData = {
-            // غير مسموح - بقوليات
-            "فاصوليا": "غير مسموح",
-            "الفاصوليا": "غير مسموح",
-            "فاصوليا بيضاء": "غير مسموح",
-            "فاصوليا حمراء": "غير مسموح",
-            "فاصوليا خضراء": "غير مسموح",
-            "فاصوليا سوداء": "غير مسموح",
-            "حمص": "غير مسموح",
-            "الحمص": "غير مسموح",
-            "حمص عراقي": "غير مسموح",
-            "الحمص العراقي": "غير مسموح",
-            "عدس": "غير مسموح",
-            "العدس": "غير مسموح",
-            "عدس أحمر": "غير مسموح",
-            "عدس أصفر": "غير مسموح",
-            "فول": "غير مسموح",
-            "الفول": "غير مسموح",
-            "بازلاء": "غير مسموح",
-            "البازلاء": "غير مسموح",
-            "لوبيا": "غير مسموح",
-            "اللوبيا": "غير مسموح",
-            "ترمس": "غير مسموح",
-            "الترمس": "غير مسموح",
-            "ماش": "غير مسموح",
-            "الماش": "غير مسموح",
-            "صويا": "غير مسموح",
-            "الصويا": "غير مسموح",
-            "فول سوداني": "غير مسموح",
-            "الفول السوداني": "غير مسموح",
-            "فستق عبيد": "غير مسموح",
-            "الفستق العبيد": "غير مسموح",
-            "تمن باقلاء": "غير مسموح",
-            "التمن باقلاء": "غير مسموح",
-            "باقلاء": "غير مسموح",
-            "الباقلاء": "غير مسموح",
-            "بقوليات": "غير مسموح",
-            "البقوليات": "غير مسموح",
-            
-            // غير مسموح - أكل السوق الجاهز
-            "أكل السوق الجاهز": "غير مسموح",
-            "اكل السوق الجاهز": "غير مسموح",
-            "كنتاكي": "غير مسموح",
-            "الكنتاكي": "غير مسموح",
-            "ماكدونالدز": "غير مسموح",
-            "الماكدونالدز": "غير مسموح",
-            "برغر كنج": "غير مسموح",
-            "البرغر كنج": "غير مسموح",
-            "بيتزا جاهزة": "غير مسموح",
-            "البيتزا الجاهزة": "غير مسموح",
-            "كبة مجمدة": "غير مسموح",
-            "الكبة المجمدة": "غير مسموح",
-            "برغر مجمد": "غير مسموح",
-            "البرغر المجمد": "غير مسموح",
-            "نقانق": "غير مسموح",
-            "النقانق": "غير مسموح",
-            "سجق": "غير مسموح",
-            "السجق": "غير مسموح",
-            "مرتديلا": "غير مسموح",
-            "المرتديلا": "غير مسموح",
-            "لانشون": "غير مسموح",
-            "اللانشون": "غير مسموح",
-            "أطعمة معلبة": "غير مسموح",
-            "الأطعمة المعلبة": "غير مسموح",
-            "مخللات جاهزة": "غير مسموح",
-            "المخللات الجاهزة": "غير مسموح",
-            "بطاطس مقلية جاهزة": "غير مسموح",
-            "البطاطس المقلية الجاهزة": "غير مسموح",
-            "حلويات جاهزة": "غير مسموح",
-            "الحلويات الجاهزة": "غير مسموح",
-            "معجنات جاهزة": "غير مسموح",
-            "المعجنات الجاهزة": "غير مسموح",
-            "سمبوسة جاهزة": "غير مسموح",
-            "السمبوسة الجاهزة": "غير مسموح",
-            "شاورما جاهزة": "غير مسموح",
-            "الشاورما الجاهزة": "غير مسموح",
-            "دجاج مجمد متبل": "غير مسموح",
-            "الدجاج المجمد المتبل": "غير مسموح",
-            "أرز جاهز": "غير مسموح",
-            "الأرز الجاهز": "غير مسموح",
-            "صلصات جاهزة": "غير مسموح",
-            "الصلصات الجاهزة": "غير مسموح",
-            "مرق جاهز": "غير مسموح",
-            "المرق الجاهز": "غير مسموح",
-            "مكعبات المرق": "غير مسموح",
-            
-            // غير مسموح - بهارات
-            "بهارات": "غير مسموح",
-            "البهارات": "غير مسموح",
-            "بهارات عراقية": "غير مسموح",
-            "البهارات العراقية": "غير مسموح",
-            "كركم": "غير مسموح",
-            "الكركم": "غير مسموح",
-            "كاري": "غير مسموح",
-            "الكاري": "غير مسموح",
-            "فلفل أسود": "غير مسموح",
-            "الفلفل الأسود": "غير مسموح",
-            "فلفل أحمر": "غير مسموح",
-            "الفلفل الأحمر": "غير مسموح",
-            "شطة": "غير مسموح",
-            "الشطة": "غير مسموح",
-            "كمون": "غير مسموح",
-            "الكمون": "غير مسموح",
-            "كزبرة": "غير مسموح",
-            "الكزبرة": "غير مسموح",
-            "قرنفل": "غير مسموح",
-            "القرنفل": "غير مسموح",
-            "هيل": "غير مسموح",
-            "الهيل": "غير مسموح",
-            "زنجبيل مطحون": "غير مسموح",
-            "الزنجبيل المطحون": "غير مسموح",
-            "زعفران": "غير مسموح",
-            "الزعفران": "غير مسموح",
-            "جوزة الطيب": "غير مسموح",
-            "جوزة طيب": "غير مسموح",
-            "قرفة": "غير مسموح",
-            "القرفة": "غير مسموح",
-            "ريحان مجفف": "غير مسموح",
-            "الريحان المجفف": "غير مسموح",
-            "سبع بهارات": "غير مسموح",
-            "السبع بهارات": "غير مسموح",
-            "بهارات برياني": "غير مسموح",
-            "بهارات المندي": "غير مسموح",
-            "بهارات المقلوبة": "غير مسموح",
-            "بهارات مخلوطة": "غير مسموح",
-            "خلطات تجارية للبهارات": "غير مسموح",
-            "مسحوق الثوم": "غير مسموح",
-            "مسحوق ثوم": "غير مسموح",
-            "مسحوق البصل": "غير مسموح",
-            "مسحوق بصل": "غير مسموح",
-            "بابريكا": "غير مسموح",
-            "البابريكا": "غير مسموح",
-            "حلبة": "غير مسموح",
-            "الحلبة": "غير مسموح",
-            "يانسون": "غير مسموح",
-            "اليانسون": "غير مسموح",
-            
-            // غير مسموح - أساسيات
-            "سمك": "غير مسموح",
-            "السمك": "غير مسموح",
-            "السمج": "غير مسموح",
-            "سمج": "غير مسموح",
-            "نساتل": "غير مسموح",
-            "النستلة": "غير مسموح",
-            "حلويات": "غير مسموح",
-            "الحلويات": "غير مسموح",
-            "معجنات": "غير مسموح",
-            "المعجنات": "غير مسموح",
-            "سكاكر": "غير مسموح",
-            "السكاكر": "غير مسموح",
-            "بصل": "غير مسموح",
-            "البصل": "غير مسموح",
-            "ثوم": "غير مسموح",
-            "الثوم": "غير مسموح",
-            "طرشي": "غير مسموح",
-            "الطرشي": "غير مسموح",
-            "ايس كريم": "غير مسموح",
-            "الآيس كريم": "غير مسموح",
-            "حليب": "غير مسموح",
-            "الحليب": "غير مسموح",
-            "طماطم": "غير مسموح",
-            "الطماطم": "غير مسموح",
-            "جبس": "غير مسموح",
-            "الجبس": "غير مسموح",
-            "باذنجان": "غير مسموح",
-            "الباذنجان": "غير مسموح",
-            "فلفل": "غير مسموح",
-            "الفلفل": "غير مسموح",
-            "فجل": "غير مسموح",
-            "الفجل": "غير مسموح",
-            "شبنت": "غير مسموح",
-            "الشبنت": "غير مسموح",
-            "الحوامض": "غير مسموح",
-            "حوامض": "غير مسموح",
-            "موز": "غير مسموح",
-            "الموز": "غير مسموح",
-            "مشمش": "غير مسموح",
-            "المشمش": "غير مسموح",
-            "بطيخ": "غير مسموح",
-            "البطيخ": "غير مسموح",
-            "كيوي": "غير مسموح",
-            "الكيوي": "غير مسموح",
-            "كرز": "غير مسموح",
-            "الكرز": "غير مسموح",
-            "فراولة": "غير مسموح",
-            "الفراولة": "غير مسموح",
-            "فريز": "غير مسموح",
-            "الفريز": "غير مسموح",
-            "خوخ": "غير مسموح",
-            "الخوخ": "غير مسموح",
-            "الصاص": "غير مسموح",
-            "صاص": "غير مسموح",
-            "الكجب": "غير مسموح",
-            "كجب": "غير مسموح",
-            "كاتشب": "غير مسموح",
-            "الكاتشب": "غير مسموح",
-            "العمبة": "غير مسموح",
-            "عمبة": "غير مسموح",
-            "المايونيز": "غير مسموح",
-            "مايونيز": "غير مسموح",
-            "بيض": "غير مسموح",
-            "البيض": "غير مسموح",
-            "حمضيات": "غير مسموح",
-            "الحمضيات": "غير مسموح",
-            "ليمون": "غير مسموح",
-            "الليمون": "غير مسموح",
-            "الحامض": "غير مسموح",
-            "حامض": "غير مسموح",
-            "برتقال": "غير مسموح",
-            "البرتقال": "غير مسموح",
-            "ألبرتقال": "غير مسموح",
-            "جبن": "غير مسموح",
-            "الجبن": "غير مسموح",
-            "لبن": "غير مسموح",
-            "اللبن": "غير مسموح",
-            "زبادي": "غير مسموح",
-            "الزبادي": "غير مسموح",
-            "ببسي": "غير مسموح",
-            "الببسي": "غير مسموح",
-            "كوكاكولا": "غير مسموح",
-            "الكوكاكولا": "غير مسموح",
-            "المشروبات الغازية": "غير مسموح",
-            "مشروبات غازية": "غير مسموح",
-            "شوكولاتة": "غير مسموح",
-            "الشوكولاتة": "غير مسموح",
-            "شيبس": "غير مسموح",
-            "الشيبس": "غير مسموح",
-            "مقالي": "غير مسموح",
-            "المقالي": "غير مسموح",
-            "قهوة": "غير مسموح",
-            "القهوة": "غير مسموح",
-            
-            // مسموح
-            "العصائر الطبيعية": "مسموح",
-            "عصائر طبيعية": "مسموح",
-            "عصير طبيعي": "مسموح",
-            "ركي": "مسموح",
-            "الركي": "مسموح",
-            "توت": "مسموح",
-            "التوت": "مسموح",
-            "تفاح": "مسموح",
-            "التفاح": "مسموح",
-            "ألتفاح": "مسموح",
-            "عنب": "مسموح",
-            "العنب": "مسموح",
-            "ألعنب": "مسموح",
-            "اللالنكي": "مسموح",
-            "لالنكي": "مسموح",
-            "اناناس": "مسموح",
-            "الاناناس": "مسموح",
-            "أناناس": "مسموح",
-            "الأناناس": "مسموح",
-            "الو": "مسموح",
-            "رمان": "مسموح",
-            "الرمان": "مسموح",
-            "ألرمان": "مسموح",
-            "الكمثرى": "مسموح",
-            "كمثرى": "مسموح",
-            "التين": "مسموح",
-            "تين": "مسموح",
-            "الجوز الهندي": "مسموح",
-            "جوز هندي": "مسموح",
-            "الجوافة": "مسموح",
-            "جوافة": "مسموح",
-            "المانجو": "مسموح",
-            "مانجو": "مسموح",
-            "ألمانجو": "مسموح",
-            "العرموط": "مسموح",
-            "عرموط": "مسموح",
-            "الأفوكادو": "مسموح",
-            "أفوكادو": "مسموح",
-            "افوكادو": "مسموح",
-            "الكوجة": "مسموح",
-            "كوجة": "مسموح",
-            "الدجاج": "مسموح",
-            "دجاج": "مسموح",
-            "الخضروات": "مسموح",
-            "خضروات": "مسموح",
-            "خضار": "مسموح",
-            "الخضار": "مسموح",
-            "الرز": "مسموح",
-            "رز": "مسموح",
-            "أرز": "مسموح",
-            "الأرز": "مسموح",
-            "القمح": "مسموح",
-            "قمح": "مسموح",
-            "الشعير": "مسموح",
-            "شعير": "مسموح",
-            "العسل": "مسموح",
-            "عسل": "مسموح",
-            "النخيل": "مسموح",
-            "نخيل": "مسموح",
-            "الحبوب الكاملة": "مسموح",
-            "حبوب كاملة": "مسموح",
-            "الحبوب الغنية بالبروتين": "مسموح",
-            "حبوب غنية بالبروتين": "مسموح",
-            "الشوفان": "مسموح",
-            "شوفان": "مسموح",
-            "القروفت": "مسموح",
-            "قروفت": "مسموح",
-            "المرق": "مسموح",
-            "مرق": "مسموح",
-            "الصلصات الطبيعية": "مسموح",
-            "صلصات طبيعية": "مسموح",
-            "الصابون الشعير": "مسموح",
-            "صابون الشعير": "مسموح",
-            "الشاي": "مسموح",
-            "شاي": "مسموح",
-            "النوافذ": "مسموح",
-            "نوافذ": "مسموح",
-            "اللحم المشوي": "مسموح",
-            "لحم مشوي": "مسموح",
-            "الدجاج المشوي": "مسموح",
-            "دجاج مشوي": "مسموح",
-            "الكباب": "مسموح",
-            "كباب": "مسموح",
-            "القشري": "مسموح",
-            "قشري": "مسموح",
-            "الرز المطبوخ": "مسموح",
-            "رز مطبوخ": "مسموح",
-            "الخضروات الطازجة": "مسموح",
-            "خضروات طازجة": "مسموح",
-            "الحلوى الطبيعية": "مسموح",
-            "حلوى طبيعية": "مسموح",
-            "الحلوى الخالية من السكر": "مسموح",
-            "حلوى خالية من السكر": "مسموح",
-            "اللوز": "مسموح",
-            "لوز": "مسموح",
-            "البندق": "مسموح",
-            "بندق": "مسموح",
-            "الفستق": "مسموح",
-            "فستق": "مسموح",
-            "الكبة": "مسموح",
-            "كبة": "مسموح",
-            "المقدسة": "مسموح",
-            "مقدسة": "مسموح",
-            "السمنج": "مسموح",
-            "سمنج": "مسموح",
-            "المرق العراقي": "مسموح",
-            "مرق عراقي": "مسموح",
-            "الخضروات المقلي": "مسموح",
-            "خضروات مقلية": "مسموح",
-            "البقدونس": "مسموح",
-            "بقدونس": "مسموح",
-            "العسل العراقي": "مسموح",
-            "عسل عراقي": "مسموح",
-            "المرق البشاميل": "مسموح",
-            "مرق بشاميل": "مسموح",
-            "الخبز العربي": "مسموح",
-            "خبز عربي": "مسموح",
-            "الرز المطبوخ بالطريقة العراقية": "مسموح",
-            "رز مطبوخ بالطريقة العراقية": "مسموح",
-            "الدجاج المقلي بالطريقة العراقية": "مسموح",
-            "دجاج مقلي بالطريقة العراقية": "مسموح",
-            "اللحم المشوي بالطريقة العراقية": "مسموح",
-            "لحم مشوي بالطريقة العراقية": "مسموح",
-            
-            // إضافات أكلات عراقية
-            "دولمة": "مسموح",
-            "الدولمة": "مسموح",
-            "ألدولمة": "مسموح",
-            "برياني عراقي": "مسموح",
-            "البرياني العراقي": "مسموح",
-            "باچة": "مسموح",
-            "الباچة": "مسموح",
-            "كبة موصلية": "مسموح",
-            "الكبة الموصلية": "مسموح",
-            "قوزي": "مسموح",
-            "القوزي": "مسموح",
-            "تشريب": "مسموح",
-            "التشريب": "مسموح",
-            "مرگة باميا": "مسموح",
-            "المرگة باميا": "مسموح",
-            "چلو": "مسموح",
-            "الچلو": "مسموح",
-            "گص عراقي": "مسموح",
-            "الگص العراقي": "مسموح",
-            "بنجر": "مسموح",
-            "البنجر": "مسموح",
-            "شمندر": "مسموح",
-            "الشمندر": "مسموح",
-            "طرشانة": "مسموح",
-            "الطرشانة": "مسموح",
-            "كباب عراقي": "مسموح",
-            "الكباب العراقي": "مسموح",
-            "بامية": "مسموح",
-            "البامية": "مسموح",
-            "لحم بعجين": "مسموح",
-            "اللحم بعجين": "مسموح",
-            "برنجية": "مسموح",
-            "البرنجية": "مسموح",
-            "التمن باميا": "مسموح",
-            "تمن باميا": "مسموح",
-            "بنت الصحن": "مسموح",
-            "بنت صحن": "مسموح",
-            "الكليجة": "مسموح",
-            "كليجة": "مسموح",
-            "خبز التنور": "مسموح",
-            "خبز تنور": "مسموح",
-            "التمن باللحم": "مسموح",
-            "تمن باللحم": "مسموح",
-            "الرشتة": "مسموح",
-            "رشتة": "مسموح",
-            "الهريسة العراقية": "مسموح",
-            "هريسة عراقية": "مسموح",
-            "محشي ورق عنب": "مسموح",
-            "محشي": "مسموح",
-            "دهينة": "مسموح",
-            "الدهينة": "مسموح",
-            "شوربا": "مسموح",
-            "الشوربا": "مسموح",
-            "شرمولة": "مسموح",
-            "الشرمولة": "مسموح",
-            "تتلي": "مسموح",
-            "التتلي": "مسموح",
-            "كرزات": "مسموح",
-            "الكرزات": "مسموح",
-            "تمن وخضار": "مسموح",
-            "التمن والخضار": "مسموح",
-            "كباب تكة": "مسموح",
-            "كباب التكة": "مسموح",
-            "سلطة الفتوش": "مسموح",
-            "فتوش": "مسموح",
-            
-            // فواكه وخضروات مسموحة
-            "تمر": "مسموح",
-            "التمر": "مسموح",
-            "ألتمر": "مسموح",
-            "التفاح الأخضر": "مسموح",
-            "تفاح أخضر": "مسموح",
-            "التوت البري": "مسموح",
-            "توت بري": "مسموح",
-            "النبق": "مسموح",
-            "نبق": "مسموح",
-            "السفرجل": "مسموح",
-            "سفرجل": "مسموح",
-            "الجريب فروت الأحمر": "مسموح",
-            "جريب فروت أحمر": "مسموح",
-            "الكاكي": "مسموح",
-            "كاكي": "مسموح",
-            "الرمان الحلو": "مسموح",
-            "رمان حلو": "مسموح",
-            "البلح": "مسموح",
-            "بلح": "مسموح",
-            "القشطة": "مسموح",
-            "قشطة": "مسموح",
-            "فواكه التنين": "مسموح",
-            "التنين": "مسموح",
-            "الأترج": "مسموح",
-            "أترج": "مسموح",
-            "الشليك": "مسموح",
-            "شليك": "مسموح",
-            "العنب الأخضر": "مسموح",
-            "عنب أخضر": "مسموح",
-            "البطيخ الأصفر": "مسموح",
-            "بطيخ أصفر": "مسموح",
-            "الكوسة": "مسموح", 
-            "كوسة": "مسموح",
-            "الجزر": "مسموح",
-            "جزر": "مسموح",
-            "اليقطين": "مسموح",
-            "يقطين": "مسموح",
-            "القرع": "مسموح",
-            "قرع": "مسموح",
-            "الخيار": "مسموح",
-            "خيار": "مسموح",
-            "التوت الأسود": "مسموح",
-            "توت أسود": "مسموح",
-            "الحبة السوداء": "مسموح",
-            "حبة سوداء": "مسموح",
-            "بذور الكتان": "مسموح",
-            "الكينوا": "مسموح",
-            "كينوا": "مسموح",
-            "زيت الزيتون": "مسموح",
-            "زيت زيتون": "مسموح",
-            "زيتون": "مسموح",
-            "الزيتون": "مسموح",
-            "ثمر الورد": "مسموح",
-            "الزعتر البلدي": "مسموح",
-            "زعتر بلدي": "مسموح",
-            "الخس": "مسموح",
-            "خس": "مسموح",
-            "تفاح ذهبي": "مسموح",
-            "التفاح الذهبي": "مسموح"
-        };
-
-        // تصنيف الأكلات
-        const foodCategories = {
-            "الأطعمة غير المسموحة": {
-                "بقوليات": [
-                    "فاصوليا", "حمص", "عدس", "فول", "بازلاء", "لوبيا", "ترمس", "ماش", "صويا", "فول سوداني", "باقلاء"
-                ],
-                "أكل السوق الجاهز": [
-                    "كنتاكي", "ماكدونالدز", "بيتزا جاهزة", "كبة مجمدة", "برغر مجمد", "نقانق", "مرتديلا", "لانشون", 
-                    "أطعمة معلبة", "مخللات جاهزة", "بطاطس مقلية جاهزة", "حلويات جاهزة", "معجنات جاهزة", "سمبوسة جاهزة", 
-                    "شاورما جاهزة", "دجاج مجمد متبل", "أرز جاهز", "صلصات جاهزة", "مرق جاهز"
-                ],
-                "بهارات": [
-                    "كركم", "كاري", "فلفل أسود", "فلفل أحمر", "شطة", "كمون", "كزبرة", "قرنفل", "هيل", "زنجبيل مطحون", 
-                    "زعفران", "جوزة الطيب", "قرفة", "ريحان مجفف", "سبع بهارات", "بهارات برياني", "مسحوق الثوم", 
-                    "مسحوق البصل", "بابريكا", "حلبة", "يانسون"
-                ],
-                "منتجات الألبان": [
-                    "حليب", "لبن", "زبادي", "جبن", "ايس كريم"
-                ],
-                "الحمضيات": [
-                    "ليمون", "برتقال", "حامض", "حمضيات"
-                ],
-                "أخرى غير مسموحة": [
-                    "سمك", "بصل", "ثوم", "طماطم", "باذنجان", "فلفل", "فجل", "شبنت", "موز", "مشمش", "بطيخ", "كيوي", 
-                    "كرز", "فراولة", "خوخ", "بيض", "شيبس", "مقالي", "قهوة", "كاتشب", "مايونيز", "شوكولاتة", "مشروبات غازية"
-                ]
-            },
-            "الأطعمة المسموحة": {
-                "أكلات عراقية": [
-                    "دولمة", "برياني عراقي", "باچة", "كبة موصلية", "قوزي", "تشريب", "مرگة باميا", "چلو", "گص البستان", 
-                    "قادم قريبا", "شمندر", "طرشانة", "كباب عراقي", "بامية", "لحم بعجين", "برنجية", "تمن باميا", "كبة", "مرق عراقي", 
-                    "رز مطبوخ بالطريقة العراقية", "دجاج مقلي بالطريقة العراقية", "لحم مشوي بالطريقة العراقية", "بنت الصحن", 
-                    "كليجة", "خبز التنور", "تمن باللحم", "رشتة", "هريسة عراقية", "محشي ورق عنب", "دهينة", "سوربا", "شرمولة", 
-                    "تتلي", "كرزات", "تمن وخضار", "كباب تكة", "فتوش"
-                ],
-                "فواكه": [
-                    "تمر", "تفاح أخضر", "توت بري", "نبق", "سفرجل", "جريب فروت أحمر", "كاكي", "رمان حلو", "تمر بلح", "قشطة", 
-                    "تنبل", "أترج", "شليك", "توت", "تفاح", "عنب", "لالنكي", "اناناس", "العنب الاحمر", "رمان", "كمثرى", "تين", 
-                    "جوافة", "مانجو", "عرموط", "أفوكادو", "كوجة", "عنب أخضر", "بطيخ أصفر", "توت أسود", "تفاح ذهبي"
-                ],
-                "مشروبات": [
-                    "عصائر طبيعية", "شاي", "ركي"
-                ],
-                "لحوم وبروتين": [
-                    "دجاج", "لحم مشوي", "دجاج مشوي", "كباب", "حبوب غنية بالبروتين"
-                ],
-                "خضروات": [
-                    "كوسة", "جزر", "يقطين", "قرع", "خيار", "بنجر", "شمندر", "خضروات طازجة", "بقدونس", "خس"
-                ],
-                "حبوب وأغذية أساسية": [
-                    "رز", "قمح", "شعير", "حبوب كاملة", "شوفان", "رز مطبوخ", "خبز عربي", "كينوا", "حبة سوداء", "بذور الكتان"
-                ],
-                "مكسرات وبذور": [
-                    "لوز", "بندق", "فستق", "جوز هندي"
-                ],
-                "أخرى مسموحة": [
-                    "زيت زيتون", "زيتون", "نخيل", "عسل", "قروفت", "مرق", "صلصات طبيعية", "صابون الشعير", "نوافذ", 
-                    "قشري", "حلوى طبيعية", "حلوى خالية من السكر", "مقدسة", "سمنج", "خضروات مقلية", "عسل عراقي", "مرق بشاميل"
-                ]
-            }
-        };
-
-        // معلومات غذائية لبعض الأطعمة
-        const nutritionalInfo = {
-            "تفاح": {
-                "فوائد": ["غني بالألياف", "مضاد للأكسدة", "يحسن صحة القلب", "يساعد على تنظيم مستوى السكر في الدم"],
-                "سعرات": "52 سعرة حرارية لكل 100 غرام",
-                "فيتامينات": ["فيتامين C", "فيتامين K", "فيتامين B6"]
-            },
-            "رمان": {
-                "فوائد": ["غني بمضادات الأكسدة", "يحسن صحة القلب", "يقلل من الالتهاب", "يساعد في خفض ضغط الدم"],
-                "سعرات": "83 سعرة حرارية لكل 100 غرام",
-                "فيتامينات": ["فيتامين C", "فيتامين K", "حمض الفوليك"]
-            },
-            "تمر": {
-                "فوائد": ["غني بالألياف", "مصدر للطاقة", "غني بالمعادن مثل البوتاسيوم والمغنيسيوم", "يحسن صحة الجهاز الهضمي"],
-                "سعرات": "282 سعرة حرارية لكل 100 غرام",
-                "فيتامينات": ["فيتامين B6", "نياسين", "حمض البانتوثنيك"]
-            },
-            "دجاج": {
-                "فوائد": ["غني بالبروتين", "قليل الدهون", "يساعد في بناء العضلات", "مصدر للفيتامينات B"],
-                "سعرات": "165 سعرة حرارية لكل 100 غرام (مشوي بدون جلد)",
-                "نصائح": "يفضل إزالة الجلد وطهيه مشوياً أو مسلوقاً"
-            },
-            "رز": {
-                "فوائد": ["مصدر للطاقة", "سهل الهضم", "قليل الدهون", "خالي من الغلوتين"],
-                "سعرات": "130 سعرة حرارية لكل 100 غرام (مطبوخ)",
-                "نصائح": "يفضل الرز البني للحصول على المزيد من الألياف"
-            },
-            "لوز": {
-                "فوائد": ["غني بالبروتين والألياف", "مصدر جيد للدهون الصحية", "يحتوي على فيتامين E", "يساعد في خفض الكولسترول"],
-                "سعرات": "579 سعرة حرارية لكل 100 غرام",
-                "نصائح": "يكفي تناول حفنة صغيرة يومياً للاستفادة من فوائده"
-            },
-            "زيت زيتون": {
-                "فوائد": ["غني بالدهون الأحادية غير المشبعة", "مضاد للالتهابات", "يحسن صحة القلب", "غني بمضادات الأكسدة"],
-                "سعرات": "884 سعرة حرارية لكل 100 غرام",
-                "نصائح": "يفضل استخدامه في السلطات والأطباق الباردة"
-            },
-            "عسل": {
-                "فوائد": ["مضاد للبكتيريا", "مضاد للالتهابات", "يساعد في تخفيف السعال", "مصدر طبيعي للطاقة"],
-                "سعرات": "304 سعرة حرارية لكل 100 غرام",
-                "نصائح": "يستخدم باعتدال كبديل طبيعي للسكر"
-            },
-            "كوسة": {
-                "فوائد": ["منخفضة السعرات الحرارية", "غنية بفيتامين C", "تساعد في الهضم", "تحتوي على مضادات الأكسدة"],
-                "سعرات": "17 سعرة حرارية لكل 100 غرام",
-                "نصائح": "يمكن طهيها بالبخار أو السلق أو الشوي"
-            },
-            "خيار": {
-                "فوائد": ["يحتوي على نسبة عالية من الماء", "منخفض السعرات", "غني بالألياف", "يساعد في الترطيب"],
-                "سعرات": "15 سعرة حرارية لكل 100 غرام",
-                "نصائح": "يفضل تناوله طازجاً في السلطات"
-            }
-        };
-
-        // تحديد احتمالية الحساسية
-        const allergyPotential = {
-            "لوز": "متوسط - بعض الأشخاص يعانون من حساسية المكسرات",
-            "فستق": "عالي - من المكسرات الشائعة المسببة للحساسية",
-            "بندق": "عالي - من المكسرات الشائعة المسببة للحساسية",
-            "عسل": "منخفض - يحتمل حساسية نادرة من حبوب اللقاح",
-            "كينوا": "منخفض - بديل آمن للحبوب المسببة للحساسية",
-            "تفاح": "منخفض - نادراً ما يسبب الحساسية"
-        };
-
-        function normalizeArabicText(text) {
-            // تنظيف النص العربي - إزالة ال التعريف وتوحيد الهمزات
-            if (!text) return '';
-            
-            let normalized = text.trim().toLowerCase();
-            
-            // توحيد الهمزات (أ/إ/آ -> ا)
-            normalized = normalized.replace(/[أإآ]/g, 'ا');
-            
-            // إزالة ال التعريف إذا كانت في البداية
-            normalized = normalized.replace(/^ال/, '');
-            
-            return normalized;
-        }
-
-        function findFoodByNormalizedName(searchTerm) {
-            const normalizedSearch = normalizeArabicText(searchTerm);
-            
-            // البحث المباشر عن المصطلح
-            for (const [key, value] of Object.entries(foodData)) {
-                if (normalizeArabicText(key) === normalizedSearch) {
-                    return { key, value };
-                }
-            }
-            
-            // البحث الجزئي
-            for (const [key, value] of Object.entries(foodData)) {
-                if (normalizeArabicText(key).includes(normalizedSearch) || 
-                    normalizedSearch.includes(normalizeArabicText(key))) {
-                    return { key, value };
-                }
-            }
-            
-            return null;
-        }
-
-        function analyzeUnknownFood(foodName) {
-            // تحليل طعام غير موجود في القاعدة
-            let containsForbidden = false;
-            let forbiddenIngredients = [];
-            
-            // التحقق مما إذا كان اسم الطعام يحتوي على أي مكونات ممنوعة
-            for (const ingredient of notAllowedIngredients) {
-                if (normalizeArabicText(foodName).includes(normalizeArabicText(ingredient))) {
-                    containsForbidden = true;
-                    forbiddenIngredients.push(ingredient);
-                }
-            }
-            
-            return {
-                containsForbidden,
-                forbiddenIngredients,
-                status: containsForbidden ? "غير مسموح" : "مسموح على الأرجح",
-                reasoning: containsForbidden ? 
-                    `يحتوي على مكونات غير مسموحة: ${forbiddenIngredients.join(', ')}` : 
-                    "لا يحتوي على أي مكونات ممنوعة معروفة، لكن يرجى التحقق من المكونات الدقيقة"
-            };
-        }
-
-        function getIconForFood(food, status) {
-            // أيقونات الأطعمة حسب التصنيف
-            const iconMap = {
-                "بقوليات": "🫘",
-                "أكل السوق الجاهز": "🍔",
-                "بهارات": "🌶️",
-                "منتجات الألبان": "🥛",
-                "الحمضيات": "🍋",
-                "أخرى غير مسموحة": "❌",
-                "أكلات عراقية": "🍚",
-                "فواكه": "🍎",
-                "مشروبات": "🥤",
-                "لحوم وبروتين": "🍗",
-                "خضروات": "🥦",
-                "حبوب وأغذية أساسية": "🌾",
-                "مكسرات وبذور": "🥜",
-                "أخرى مسموحة": "✅"
-            };
-
-            // تحديد التصنيف للطعام
-            for (const mainCategory in foodCategories) {
-                for (const category in foodCategories[mainCategory]) {
-                    if (foodCategories[mainCategory][category].includes(food)) {
-                        return iconMap[category] || "";
-                    }
-                }
-            }
-            
-            // إذا لم يتم العثور على تصنيف محدد
-            return status === "مسموح" ? "✅" : "❌";
-        }
-
-        function getCategoryForFood(food) {
-            // تحديد التصنيف الدقيق للطعام
-            for (const mainCategory in foodCategories) {
-                for (const category in foodCategories[mainCategory]) {
-                    if (foodCategories[mainCategory][category].includes(food)) {
-                        return category;
-                    }
-                }
-            }
-            return "أخرى";
-        }
-
-        function autoSearch() {
-            const query = document.getElementById('foodSearch').value.trim();
-            if (!query) {
-                document.getElementById('result').innerHTML = '';
-                document.getElementById('result').classList.remove('show');
-                return;
-            }
-            
-            searchFood();
-        }
-
-        function searchFood() {
-            const query = document.getElementById('foodSearch').value.trim();
-            if (!query) return;
-            
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';
-            
-            // البحث في قاعدة البيانات المعروفة
-            const foundFood = findFoodByNormalizedName(query);
-            
-            if (foundFood) {
-                displayFoundFood(foundFood.key, foundFood.value, resultDiv);
-            } else {
-                // إذا لم يتم العثور عليه، استخدم وظيفة التحليل
-                resultDiv.innerHTML = `
-                    <div class="loading">
-                        جاري تحليل الطعام... 
-                        <div class="loading-dots">
-                            <span></span><span></span><span></span>
-                        </div>
-                    </div>
-                `;
-                resultDiv.classList.add('show');
-                
-                // محاكاة تأخير معالجة الذكاء الاصطناعي
-                setTimeout(() => {
-                    const analysis = analyzeUnknownFood(query);
-                    displayAnalyzedFood(query, analysis, resultDiv);
-                }, 1500);
-            }
-            
-            document.getElementById('foodList').innerHTML = '';
-        }
-
-        function displayFoundFood(foodName, status, resultDiv) {
-            const icon = status === 'مسموح' ? '✅' : '❌';
-            const colorClass = status === 'مسموح' ? 'allowed' : 'not-allowed';
-            const foodIcon = getIconForFood(foodName, status);
-            const category = getCategoryForFood(foodName);
-            
-            let html = `
-                <div class="${colorClass}">
-                    ${foodIcon} ${icon} <span class="food-name">${foodName}</span> 
-                    <br><span class="${colorClass}">${status}</span>
-                </div>
-            `;
-            
-            // عرض تفاصيل إضافية للأطعمة غير المسموحة
-            if (status === 'غير مسموح') {
-                // التحقق مما إذا كان هناك تفاصيل للفئة
-                for (const categoryName in forbiddenFoodDetails) {
-                    if (category === categoryName || foodName.includes(categoryName)) {
-                        const details = forbiddenFoodDetails[categoryName];
-                        html += `
-                            <div class="details-info">
-                                <h3>تفاصيل حول ${categoryName}:</h3>
-                                <p>${details.وصف}</p>
-                                <h4 style="margin-top: 10px; margin-bottom: 5px;">أمثلة:</h4>
-                                <ul>
-                                    ${details.أمثلة.slice(0, 5).map(example => `<li>${example}</li>`).join('')}
-                                </ul>
-                                <p style="margin-top: 10px;"><strong>سبب المنع:</strong> ${details["سبب المنع"]}</p>
-                            </div>
-                        `;
-                        break;
-                    }
-                }
-            }
-            
-            // إضافة المعلومات الغذائية إذا كانت متوفرة
-            if (nutritionalInfo[foodName] && status === 'مسموح') {
-                const info = nutritionalInfo[foodName];
-                html += `
-                    <div class="nutritional-info">
-                        <h3>معلومات غذائية:</h3>
-                        <ul>
-                            ${info.فوائد.map(benefit => `<li>${benefit}</li>`).join('')}
-                        </ul>
-                        <p>${info.سعرات || ''}</p>
-                        ${info.نصائح ? `<p><strong>نصيحة:</strong> ${info.نصائح}</p>` : ''}
-                    </div>
-                `;
-            }
-            
-            // إضافة تحذير الحساسية إذا كان متوفراً
-            if (allergyPotential[foodName]) {
-                html += `
-                    <div class="allergy-warning">
-                        <strong>تنبيه الحساسية:</strong> ${allergyPotential[foodName]}
-                    </div>
-                `;
-            }
-            
-            // إضافة اقتراحات إذا كان الطعام غير مسموح
-            if (status === 'غير مسموح') {
-                // اقتراح بدائل من نفس الفئة
-                let alternatives = [];
-                
-                // البحث عن بدائل من نفس الفئة الغذائية
-                if (category) {
-                    const allowedCategories = foodCategories["الأطعمة المسموحة"];
-                    let matchingCategory = "";
-                    
-                    // تحديد الفئة المقابلة في المسموح
-                    if (category === "بقوليات") {
-                        matchingCategory = "حبوب وأغذية أساسية";
-                    } else if (category === "بهارات") {
-                        matchingCategory = "أخرى مسموحة";
-                    } else if (category === "منتجات الألبان") {
-                        matchingCategory = "لحوم وبروتين";
-                    } else if (category === "الحمضيات") {
-                        matchingCategory = "فواكه";
-                    } else if (category === "أكل السوق الجاهز") {
-                        matchingCategory = "أكلات عراقية";
-                    }
-                    
-                    if (matchingCategory && allowedCategories[matchingCategory]) {
-                        alternatives = allowedCategories[matchingCategory].slice(0, 3);
-                    }
-                }
-                
-                if (alternatives.length === 0) {
-                    // بدائل عامة
-                    alternatives = ["تفاح", "رز", "دجاج", "خيار", "رمان"];
-                }
-                
-                const randomAlternatives = alternatives.sort(() => 0.5 - Math.random()).slice(0, 3);
-                html += `
-                    <div class="suggestion">
-                        <strong>بدائل مسموحة:</strong> ${randomAlternatives.join('، ')}
-                    </div>
-                `;
-            }
-            
-            resultDiv.innerHTML = html;
-            resultDiv.classList.add('show');
-        }
-
-        function displayAnalyzedFood(foodName, analysis, resultDiv) {
-            const icon = analysis.status.includes('مسموح') ? '✅' : '❌';
-            const colorClass = analysis.status.includes('مسموح') ? 'allowed' : 'not-allowed';
-            
-            let html = `
-                <div class="ai-response">
-                    <h3>تحليل الطعام: ${foodName}</h3>
-                    <div class="${colorClass}">
-                        ${icon} <span class="${colorClass}">${analysis.status}</span>
-                    </div>
-                    <p style="margin-top: 10px;">${analysis.reasoning}</p>
-            `;
-            
-            if (analysis.containsForbidden) {
-                // اقتراح بدائل عامة
-                const alternatives = ["تفاح", "رز", "دجاج", "خيار", "رمان", "مانجو", "كوسة", "تمر"];
-                const randomAlternatives = alternatives.sort(() => 0.5 - Math.random()).slice(0, 3);
-                
-                html += `
-                    <div class="suggestion" style="margin-top: 15px;">
-                        <strong>بدائل مسموحة:</strong> ${randomAlternatives.join('، ')}
-                    </div>
-                `;
-            } else {
-                html += `
-                    <div class="allergy-warning" style="margin-top: 15px;">
-                        <strong>ملاحظة:</strong> هذا الطعام غير موجود في قاعدة بياناتنا، لكن يبدو أنه لا يحتوي على مكونات ممنوعة. ننصح بالتحقق من المكونات الدقيقة قبل تناوله.
-                    </div>
-                `;
-            }
-            
-            html += `</div>`;
-            resultDiv.innerHTML = html;
-            resultDiv.classList.add('show');
-        }
-
-        function showAllFoods() {
-            const foodList = document.getElementById('foodList');
-            foodList.innerHTML = '';
-            
-            // عرض قسم الأطعمة غير المسموحة
-            const notAllowed = Array.from(new Set(
-                Object.keys(foodData)
-                    .filter(k => foodData[k] === 'غير مسموح')
-                    .sort()
-            )).slice(0, 50); // نأخذ فقط 50 عنصر لتجنب التكرار
-            
-            foodList.innerHTML += `
-                <div class="category-header not-allowed">❌ غير مسموح (${notAllowed.length}+)</div>
-                <div class="food-items-container">
-                    ${notAllowed.map(key => `
-                        <div class="food-item not-allowed" onclick="showFoodDetails('${key}', 'غير مسموح')">
-                            <span class="food-name">${key}</span>
-                            <span class="food-status not-allowed">${foodData[key]}</span>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            
-            // عرض قسم الأطعمة المسموحة مصنفة
-            foodList.innerHTML += `<div class="category-header allowed">✅ مسموح</div>`;
-            
-            // عرض الأطعمة المسموحة مصنفة حسب الفئات
-            const allowedCategories = foodCategories["الأطعمة المسموحة"];
-            for (const category in allowedCategories) {
-                const categoryItems = allowedCategories[category];
-                
-                // إنشاء قائمة بدون تكرار
-                const uniqueCategoryItems = Array.from(new Set(
-                    categoryItems.filter(item => foodData[item] === 'مسموح')
-                ));
-                
-                if (uniqueCategoryItems.length > 0) {
-                    foodList.innerHTML += `
-                        <div class="subcategory">${getIconForFood(uniqueCategoryItems[0], 'مسموح')} ${category} (${uniqueCategoryItems.length})</div>
-                        <div class="food-items-container">
-                            ${uniqueCategoryItems.sort().map(key => `
-                                <div class="food-item allowed" onclick="showFoodDetails('${key}', 'مسموح')">
-                                    <span class="food-name">${key}</span>
-                                    <span class="food-status allowed">مسموح</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        function showFoodDetails(foodName, status) {
-            const resultDiv = document.getElementById('result');
-            displayFoundFood(foodName, status || foodData[foodName], resultDiv);
-            
-            // تمرير إلى أعلى الصفحة لرؤية التفاصيل
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        function resetTabs() {
+            tabs.forEach(t => {
+                t.content.classList.add('hidden');
+                t.btn.classList.remove('border-green-500', 'border-amber-500', 'border-stone-500', 'text-stone-800');
+                t.btn.classList.add('border-transparent', 'text-stone-500');
             });
         }
 
-        function showTab(tabName) {
-            // تنشيط علامة التبويب المحددة
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active');
-            
-            const tabContent = document.getElementById('tabContent');
-            
-            if (tabName === 'allowed') {
-                // عرض الأطعمة المسموحة
-                tabContent.innerHTML = `<div class="category-header allowed">✅ الأطعمة المسموحة</div>`;
-                
-                const allowedCategories = foodCategories["الأطعمة المسموحة"];
-                for (const category in allowedCategories) {
-                    const categoryItems = allowedCategories[category];
-                    
-                    // إنشاء قائمة بدون تكرار
-                    const uniqueCategoryItems = Array.from(new Set(
-                        categoryItems.filter(item => foodData[item] === 'مسموح')
-                    ));
-                    
-                    if (uniqueCategoryItems.length > 0) {
-                        tabContent.innerHTML += `
-                            <div class="subcategory">${getIconForFood(uniqueCategoryItems[0], 'مسموح')} ${category} (${uniqueCategoryItems.length})</div>
-                            <div class="food-items-container">
-                                ${uniqueCategoryItems.sort().map(key => `
-                                    <div class="food-item allowed" onclick="showFoodDetails('${key}', 'مسموح')">
-                                        <span class="food-name">${key}</span>
-                                        <span class="food-status allowed">مسموح</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
-                    }
+        tabs.forEach(tab => {
+            tab.btn.addEventListener('click', () => {
+                resetTabs();
+                tab.content.classList.remove('hidden');
+                tab.btn.classList.remove('border-transparent', 'text-stone-500');
+                tab.btn.classList.add(tab.color, 'text-stone-800');
+            });
+        });
+
+        tabs[0].btn.classList.remove('border-transparent');
+        tabs[0].btn.classList.add('border-green-500', 'text-stone-800');
+
+        // الرسم البياني
+        const chartData = {
+            ar: { labels: ['تركيا وسوريا', 'اليابان'], label: 'القوة (ريختر)' },
+            en: { labels: ['Turkey-Syria', 'Japan'], label: 'Magnitude' }
+        };
+
+        function initChart() {
+            if (window.magnitudeChartInstance) return; 
+            const ctx = document.getElementById('magnitudeChart').getContext('2d');
+            const currentData = isArabic ? chartData.ar : chartData.en;
+            window.magnitudeChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: currentData.labels,
+                    datasets: [{
+                        label: currentData.label,
+                        data: [7.8, 9.0],
+                        backgroundColor: ['rgba(217, 119, 6, 0.7)', 'rgba(185, 28, 28, 0.7)'],
+                        borderColor: ['rgb(217, 119, 6)', 'rgb(185, 28, 28)'],
+                        borderWidth: 1, borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { beginAtZero: true, max: 10, title: { display: true, text: currentData.label } } },
+                    plugins: { legend: { display: false } }
                 }
-                
-            } else if (tabName === 'not-allowed') {
-                // عرض الأطعمة غير المسموحة
-                tabContent.innerHTML = `<div class="category-header not-allowed">❌ الأطعمة غير المسموحة</div>`;
-                
-                const forbiddenCategories = foodCategories["الأطعمة غير المسموحة"];
-                for (const category in forbiddenCategories) {
-                    const categoryItems = forbiddenCategories[category];
-                    
-                    // إنشاء قائمة بدون تكرار
-                    const uniqueCategoryItems = Array.from(new Set(
-                        categoryItems.filter(item => foodData[item] === 'غير مسموح')
-                    ));
-                    
-                    if (uniqueCategoryItems.length > 0) {
-                        tabContent.innerHTML += `
-                            <div class="subcategory">${getIconForFood(uniqueCategoryItems[0], 'غير مسموح')} ${category} (${uniqueCategoryItems.length})</div>
-                            <div class="food-items-container">
-                                ${uniqueCategoryItems.sort().map(key => `
-                                    <div class="food-item not-allowed" onclick="showFoodDetails('${key}', 'غير مسموح')">
-                                        <span class="food-name">${key}</span>
-                                        <span class="food-status not-allowed">غير مسموح</span>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        `;
-                    }
-                }
-                
-                // إضافة تفاصيل لكل فئة
-                for (const category in forbiddenFoodDetails) {
-                    const details = forbiddenFoodDetails[category];
-                    tabContent.innerHTML += `
-                        <div class="details-info">
-                            <h3>تفاصيل حول ${category}:</h3>
-                            <p>${details.وصف}</p>
-                            <h4 style="margin-top: 10px; margin-bottom: 5px;">أمثلة:</h4>
-                            <ul>
-                                ${details.أمثلة.map(example => `<li>${example}</li>`).join('')}
-                            </ul>
-                            <p style="margin-top: 10px;"><strong>سبب المنع:</strong> ${details["سبب المنع"]}</p>
-                        </div>
-                    `;
-                }
-                
-            } else if (tabName === 'categories') {
-                // عرض تصنيفات الطعام
-                tabContent.innerHTML = `<div class="category-header">🍽️ تصنيفات الطعام</div>
-                <p style="padding: 10px; text-align: center;">اختر تصنيفًا لعرض الأطعمة المرتبطة به</p>`;
-                
-                // عرض تصنيفات الأطعمة المسموحة
-                tabContent.innerHTML += `<div class="subcategory">✅ الأطعمة المسموحة:</div>`;
-                const allowedCategoriesHTML = Object.keys(foodCategories["الأطعمة المسموحة"]).map(category => {
-                    const icon = getIconForFood(foodCategories["الأطعمة المسموحة"][category][0], 'مسموح');
-                    return `
-                        <div class="food-item allowed" onclick="showCategoryFoods('${category}', 'مسموح')">
-                            <span class="food-name">${icon} ${category}</span>
-                            <span class="food-status allowed">${foodCategories["الأطعمة المسموحة"][category].length} عنصر</span>
-                        </div>
-                    `;
-                }).join('');
-                
-                tabContent.innerHTML += `<div class="food-items-container">${allowedCategoriesHTML}</div>`;
-                
-                // عرض تصنيفات الأطعمة غير المسموحة
-                tabContent.innerHTML += `<div class="subcategory">❌ الأطعمة غير المسموحة:</div>`;
-                const forbiddenCategoriesHTML = Object.keys(foodCategories["الأطعمة غير المسموحة"]).map(category => {
-                    const icon = getIconForFood(foodCategories["الأطعمة غير المسموحة"][category][0], 'غير مسموح');
-                    return `
-                        <div class="food-item not-allowed" onclick="showCategoryFoods('${category}', 'غير مسموح')">
-                            <span class="food-name">${icon} ${category}</span>
-                            <span class="food-status not-allowed">${foodCategories["الأطعمة غير المسموحة"][category].length} عنصر</span>
-                        </div>
-                    `;
-                }).join('');
-                
-                tabContent.innerHTML += `<div class="food-items-container">${forbiddenCategoriesHTML}</div>`;
-            }
+            });
         }
 
-        function showCategoryFoods(category, status) {
-            const mainCategory = status === 'مسموح' ? "الأطعمة المسموحة" : "الأطعمة غير المسموحة";
-            const foodList = document.getElementById('foodList');
-            const foodItems = foodCategories[mainCategory][category];
+        function updateChartLanguage() {
+            const currentData = isArabic ? chartData.ar : chartData.en;
+            window.magnitudeChartInstance.data.labels = currentData.labels;
+            window.magnitudeChartInstance.data.datasets[0].label = currentData.label;
+            window.magnitudeChartInstance.options.scales.y.title.text = currentData.label;
+            window.magnitudeChartInstance.update();
+        }
+
+        // ==========================================
+        // النظام الجديد للاختبار التفاعلي (Modern Quiz System)
+        // ==========================================
+        const quizData = [
+            {
+                q: { ar: "ما هو السبب الرئيسي لتولد الموجات الزلزالية؟", en: "What is the primary cause of generating seismic waves?" },
+                options: [
+                    { ar: "التغيرات المناخية والرياح القوية", en: "Climate changes and strong winds", isCorrect: false },
+                    { ar: "التحرير المفاجئ للطاقة المخزنة في القشرة الأرضية", en: "Sudden release of stored energy in the earth's crust", isCorrect: true },
+                    { ar: "دوران الأرض حول الشمس", en: "Earth's rotation around the sun", isCorrect: false }
+                ]
+            },
+            {
+                q: { ar: "أي من الأنشطة البشرية التالية قد يُحفّز حدوث الزلازل؟", en: "Which of the following human activities can trigger earthquakes?" },
+                options: [
+                    { ar: "قطع الأشجار وإزالة الغابات", en: "Deforestation and logging", isCorrect: false },
+                    { ar: "التلوث البلاستيكي في المحيطات", en: "Plastic pollution in oceans", isCorrect: false },
+                    { ar: "حقن السوائل في عمق الأرض وإنشاء السدود الكبرى", en: "Fluid injection deep underground and building massive dams", isCorrect: true }
+                ]
+            },
+            {
+                q: { ar: "ما الفرق الجوهري بين البؤرة (Focus) والمركز السطحي (Epicenter)؟", en: "What is the core difference between the Focus and the Epicenter?" },
+                options: [
+                    { ar: "البؤرة تقع في العمق، بينما المركز السطحي يقع على السطح مباشرة فوقها", en: "Focus is deep, while Epicenter is on the surface directly above it", isCorrect: true },
+                    { ar: "المركز السطحي يقع في العمق، والبؤرة على السطح", en: "Epicenter is deep, and Focus is on the surface", isCorrect: false },
+                    { ar: "لا يوجد فرق، هما نفس النقطة تماماً", en: "No difference, they are the exact same point", isCorrect: false }
+                ]
+            },
+            {
+                q: { ar: "كيف تتشكل أمواج التسونامي (Tsunami) المدمرة؟", en: "How are destructive Tsunami waves formed?" },
+                options: [
+                    { ar: "بسبب الأعاصير الاستوائية القوية", en: "Due to strong tropical hurricanes", isCorrect: false },
+                    { ar: "بسبب حدوث زلازل أو انزلاقات أرضية قوية تحت قاع المحيط", en: "Due to underwater earthquakes or massive landslides", isCorrect: true },
+                    { ar: "بسبب ذوبان الجليد السريع في القطبين", en: "Due to rapid melting of ice at the poles", isCorrect: false }
+                ]
+            },
+            {
+                q: { ar: "أي المقاييس التالية يُستخدم لتقييم 'شدة الأضرار' التي تصيب المباني والبشر بشكل وصفي؟", en: "Which scale is used to assess the descriptive 'intensity of damage' to buildings and humans?" },
+                options: [
+                    { ar: "مقياس ريختر (Richter)", en: "Richter Scale", isCorrect: false },
+                    { ar: "السيزموغراف (Seismograph)", en: "Seismograph", isCorrect: false },
+                    { ar: "مقياس ميركالي المعدل (Mercalli)", en: "Modified Mercalli Scale", isCorrect: true }
+                ]
+            },
+            {
+                q: { ar: "ما هو الإجراء الهندسي الاستباقي الأهم لتقليل الأضرار قبل حدوث الزلزال؟", en: "What is the most important proactive engineering measure to reduce damage before an earthquake?" },
+                options: [
+                    { ar: "بناء هياكل مزودة بأنظمة لامتصاص الصدمات الزلزالية", en: "Building structures with seismic shock absorption systems", isCorrect: true },
+                    { ar: "طلاء المباني بمواد عازلة للحرارة", en: "Painting buildings with heat-insulating materials", isCorrect: false },
+                    { ar: "تجنب بناء أي منازل واستخدام الخيام فقط", en: "Avoiding building houses and using tents only", isCorrect: false }
+                ]
+            },
+            {
+                q: { ar: "أثناء حدوث الزلزال وأنت داخل المبنى، ما هو التصرف الفوري الأصح؟", en: "During an earthquake while indoors, what is the most correct immediate action?" },
+                options: [
+                    { ar: "الركض سريعاً نحو السلالم للنزول", en: "Run quickly towards the stairs to descend", isCorrect: false },
+                    { ar: "انزل على الأرض، احتمِ تحت أثاث صلب، وتماسك بقوة", en: "Drop to the floor, Cover under sturdy furniture, and Hold on", isCorrect: true },
+                    { ar: "استخدام المصعد للخروج بأسرع وقت", en: "Use the elevator to exit as quickly as possible", isCorrect: false }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = -1;
+        let score = 0;
+        let selectedOptionIndex = null;
+
+        const quizContent = document.getElementById('quiz-content');
+        const progressBar = document.getElementById('quiz-progress-bar');
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            selectedOptionIndex = null;
+            const qData = quizData[currentQuestionIndex];
             
-            // تحديد لون الخلفية والفئة
-            const colorClass = status === 'مسموح' ? 'allowed' : 'not-allowed';
-            
-            foodList.innerHTML = `
-                <div class="category-header ${colorClass}">
-                    ${status === 'مسموح' ? '✅' : '❌'} ${category}
-                </div>
-                <div class="food-items-container">
-                    ${foodItems.map(item => `
-                        <div class="food-item ${colorClass}" onclick="showFoodDetails('${item}', '${status}')">
-                            <span class="food-name">${item}</span>
-                            <span class="food-status ${colorClass}">${status}</span>
+            // تحديث شريط التقدم
+            const progressPercentage = ((currentQuestionIndex) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+
+            let html = `
+                <div class="fade-in">
+                    <div class="mb-2 text-sm font-bold text-amber-600">
+                        <span class="lang-ar">السؤال ${currentQuestionIndex + 1} من ${quizData.length}</span>
+                        <span class="lang-en">Question ${currentQuestionIndex + 1} of ${quizData.length}</span>
+                    </div>
+                    
+                    <h3 class="text-xl md:text-2xl font-bold text-stone-800 mb-6 md:mb-8 leading-relaxed">
+                        <span class="lang-ar">${qData.q.ar}</span>
+                        <span class="lang-en">${qData.q.en}</span>
+                    </h3>
+
+                    <div class="space-y-3 md:space-y-4">
+            `;
+
+            qData.options.forEach((opt, index) => {
+                html += `
+                    <button onclick="selectOption(${index})" id="opt-${index}" class="quiz-option-btn w-full text-start p-4 rounded-xl border-2 border-stone-200 hover:border-amber-400 bg-stone-50 flex items-center gap-4">
+                        <div class="radio-circle shrink-0 w-6 h-6 rounded-full border-2 border-stone-300 relative transition-colors"></div>
+                        <div class="text-base md:text-lg text-stone-700 font-medium">
+                            <span class="lang-ar">${opt.ar}</span>
+                            <span class="lang-en">${opt.en}</span>
                         </div>
-                    `).join('')}
+                    </button>
+                `;
+            });
+
+            html += `
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                        <button id="next-btn" onclick="nextQuestion()" disabled class="bg-stone-300 text-stone-500 cursor-not-allowed px-8 py-3 rounded-xl font-bold transition-colors text-lg">
+                            <span class="lang-ar dyn-ar">التالي</span>
+                            <span class="lang-en dyn-en">Next</span>
+                        </button>
+                    </div>
                 </div>
             `;
             
-            // عرض تفاصيل إضافية للفئات غير المسموحة
-            if (status === 'غير مسموح' && forbiddenFoodDetails[category]) {
-                const details = forbiddenFoodDetails[category];
-                foodList.innerHTML += `
-                    <div class="details-info">
-                        <h3>تفاصيل حول ${category}:</h3>
-                        <p>${details.وصف}</p>
-                        <h4 style="margin-top: 10px; margin-bottom: 5px;">أمثلة:</h4>
-                        <ul>
-                            ${details.أمثلة.map(example => `<li>${example}</li>`).join('')}
-                        </ul>
-                        <p style="margin-top: 10px;"><strong>سبب المنع:</strong> ${details["سبب المنع"]}</p>
-                    </div>
-                `;
+            quizContent.innerHTML = html;
+            updateDynamicQuizText(); // تطبيق حالة اللغة فوراً
+        }
+
+        function selectOption(index) {
+            selectedOptionIndex = index;
+            
+            // إزالة التحديد من الجميع
+            for(let i=0; i < quizData[currentQuestionIndex].options.length; i++){
+                document.getElementById(`opt-${i}`).classList.remove('selected');
+            }
+            
+            // إضافة التحديد للخيار المختار
+            document.getElementById(`opt-${index}`).classList.add('selected');
+
+            // تفعيل زر التالي
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-stone-300', 'text-stone-500', 'cursor-not-allowed');
+            nextBtn.classList.add('bg-amber-600', 'text-white', 'hover:bg-amber-700', 'shadow-md');
+        }
+
+        function nextQuestion() {
+            if(selectedOptionIndex === null) return;
+
+            // حساب النتيجة
+            if(quizData[currentQuestionIndex].options[selectedOptionIndex].isCorrect) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if(currentQuestionIndex < quizData.length) {
+                renderQuestion();
+            } else {
+                showResults();
             }
         }
 
-        // عند تحميل الصفحة، اعرض علامة التبويب الأولى
-        document.addEventListener('DOMContentLoaded', function() {
-            showTab('allowed');
+        function showResults() {
+            progressBar.style.width = '100%';
+            
+            const percentage = Math.round((score / quizData.length) * 100);
+            let resultColor = 'text-green-600';
+            let icon = '🏆';
+            
+            let messageAr = '';
+            let messageEn = '';
+
+            if (percentage === 100) {
+                messageAr = 'الزم عقلج واطلعة وابوسة ع هذا ذكاء.';
+                messageEn = 'Excellent! You mastered the seminar perfectly.';
+            } else if (percentage >= 70) {
+                resultColor = 'text-amber-600';
+                icon = '🌟';
+                messageAr = 'يعني عاشت ايدج بس بعدني ما مقتنع.';
+                messageEn = 'Very Good! You have strong knowledge about earthquakes.';
+            } else {
+                resultColor = 'text-red-600';
+                icon = '📚';
+                messageAr = 'ما عجبتني نتيجة حبيبي عيدي اختبار -.';
+                messageEn = 'Try reviewing the previous sections and retake the quiz.';
+            }
+
+            quizContent.innerHTML = `
+                <div class="fade-in text-center flex flex-col items-center justify-center py-10">
+                    <div class="text-7xl mb-6">${icon}</div>
+                    <h3 class="text-3xl font-bold text-stone-800 mb-2 lang-ar">اكتمل الاختبار!</h3>
+                    <h3 class="text-3xl font-bold text-stone-800 mb-2 lang-en">Quiz Completed!</h3>
+                    
+                    <div class="text-5xl font-black ${resultColor} mb-4" dir="ltr">${percentage}%</div>
+                    
+                    <p class="text-lg text-stone-600 mb-8 max-w-md lang-ar">${messageAr}<br>(الإجابات الصحيحة: ${score} من ${quizData.length})</p>
+                    <p class="text-lg text-stone-600 mb-8 max-w-md lang-en">${messageEn}<br>(Correct Answers: ${score} out of ${quizData.length})</p>
+                    
+                    <button onclick="startQuiz()" class="bg-stone-800 hover:bg-stone-900 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg flex items-center gap-2">
+                        <span>🔄</span>
+                        <span class="lang-ar dyn-ar">إعادة الاختبار</span>
+                        <span class="lang-en dyn-en">Retake Quiz</span>
+                    </button>
+                </div>
+            `;
+            updateDynamicQuizText();
+        }
+
+        // مساعدة للحفاظ على عرض اللغات ديناميكياً داخل الكود المولد عبر JS
+        function updateDynamicQuizText() {
+            const elementsAr = document.querySelectorAll('.dyn-ar');
+            const elementsEn = document.querySelectorAll('.dyn-en');
+            elementsAr.forEach(el => el.style.display = isArabic ? 'inline' : 'none');
+            elementsEn.forEach(el => el.style.display = isArabic ? 'none' : 'inline');
+        }
+
+        // تهيئة مبدئية لغير الأزرار النشطة
+        navBtns.forEach(b => {
+            if(!b.classList.contains('nav-active')) {
+                b.classList.add('bg-transparent', 'hover:bg-stone-800');
+            }
         });
     </script>
 </body>

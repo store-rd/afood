@@ -1,167 +1,68 @@
-<!--
-Copyright (C) 2023-2025 anonymous
-
-This file is part of PSFree.
-
-PSFree is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-PSFree is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html manifest="NabeelOffice.cache">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الشراع الأبيض - تفعيل 9.00</title>
-  <style>
-    /* الإعدادات العامة والألوان */
-    :root {
-      --cyan: #00e5ff;
-      --blue: #0051ff;
-      --dark-bg: #07090f;
-      --card-bg: #111424;
-      --text-main: #ffffff;
-      --text-sub: #aab0d1;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      /* استخدام خطوط النظام الأساسية لضمان ظهور اللغة العربية بدون مربعات */
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
+<meta charset="UTF-8">
+<title>Anwar - PS4 9.00 GoldHEN</title>
+<style>
     body {
-      background-color: var(--dark-bg);
-      /* خلفية شبكية كلاسيكية آمنة لمتصفح بلايستيشن */
-      background-image: 
-        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
-      background-size: 30px 30px;
-      background-position: center center;
-      color: var(--text-main);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+        background-color: #07090f;
+        background-image: linear-gradient(135deg, #050914 0%, #0a1930 100%);
+        color: #00e5ff;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 28px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
-
-    /* صندوق الواجهة الرئيسي */
-    .gaming-card {
-      width: 92%;
-      max-width: 800px;
-      padding: 35px;
-      background-color: var(--card-bg);
-      border: 2px solid rgba(0, 229, 255, 0.3);
-      border-radius: 15px;
-      text-align: center;
-      /* تأثير النيون ونبض الإضاءة الآمن لمتصفح PS4 */
-      box-shadow: 0 0 30px rgba(0, 81, 255, 0.3), inset 0 0 20px rgba(0, 229, 255, 0.1);
-      animation: neonPulse 3s infinite alternate;
+    .info-card {
+        background-color: #111424;
+        padding: 40px 60px;
+        border: 2px solid rgba(0, 229, 255, 0.3);
+        border-radius: 15px;
+        box-shadow: 0 0 30px rgba(0, 81, 255, 0.4);
+        text-align: center;
     }
-
-    @keyframes neonPulse {
-      0% { box-shadow: 0 0 20px rgba(0, 81, 255, 0.2), inset 0 0 10px rgba(0, 229, 255, 0.1); border-color: rgba(0, 229, 255, 0.2); }
-      100% { box-shadow: 0 0 40px rgba(0, 81, 255, 0.5), inset 0 0 20px rgba(0, 229, 255, 0.2); border-color: rgba(0, 229, 255, 0.6); }
+    h2 {
+        color: #ffffff;
+        font-size: 38px;
+        margin-top: 0;
+        margin-bottom: 25px;
+        text-shadow: 0 0 10px #0051ff;
     }
+</style>
+<script>
+history.replaceState(null,null,'index.html');
+var histlength = history.length;
+history.go(-histlength);
 
-    /* تنسيق النصوص */
-    h1 {
-      font-size: 38px;
-      margin-bottom: 15px;
-      color: var(--text-main);
-      text-shadow: 0 0 10px var(--blue), 0 0 20px var(--cyan);
-      letter-spacing: 1px;
-    }
+function DLProgress(e) {
+    Percent = (Math.round(e.loaded / e.total * 100));
+    msgs.innerHTML = "جاري تثبيت التفعيل بدون إنترنت ... " + Percent + "%";
+}
 
-    .info-text {
-      font-size: 18px;
-      color: var(--text-sub);
-      margin-bottom: 30px;
-      line-height: 1.7;
-    }
+function DisplayCacheProgress() {
+    setTimeout(function() {
+        msgs.innerHTML = "تم تثبيت الكاش بنجاح! يمكنك إغلاق الإنترنت الآن.";
+    }, 2000);
+    setTimeout(function() {
+        location.reload();
+    }, 4000);
+}
 
-    .highlight {
-      color: var(--cyan);
-      font-weight: bold;
-    }
-
-    /* شاشة الأوامر Console (نفس الآلية القديمة مع شكل جديد) */
-    #console {
-      background-color: #000000;
-      color: #00ff00;
-      padding: 20px;
-      border-radius: 8px;
-      height: 320px;
-      overflow-y: auto;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 16px;
-      text-align: left;
-      direction: ltr; /* لتنسيق اكواد الجيلبريك الإنجليزية بشكل صحيح */
-      border: 1px solid #222;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
-      white-space: pre-wrap;
-    }
-
-    /* شريط التمرير */
-    #console::-webkit-scrollbar { width: 8px; }
-    #console::-webkit-scrollbar-track { background: #111; border-radius: 4px; }
-    #console::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
-
-    /* الإدارة */
-    .footer-section {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
-      color: #616b94;
-      font-size: 15px;
-      font-weight: bold;
-      padding: 0 10px;
-    }
-  </style>
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+</script>
 </head>
 <body>
-
-  <!-- كود الكاش الخاص بالبلايستيشن (لا تقم بتغييره) -->
-  <script>
-    if (window.applicationCache && window.applicationCache.status === 0) {
-      window.location.replace("cache.html");
-    }
-  </script>
-
-  <!-- الواجهة -->
-  <div class="gaming-card">
-    <h1>الشراع الأبيض</h1>
-    
-    <div class="info-text">
-      مهندس <span class="highlight">أنور</span> لتهكير الأجهزة وداون كريد وتنزيل الألعاب<br>
-      <span class="highlight">07711359997</span> - بغداد، الباب الشرقي
+    <div class="info-card">
+        <h2>الشراع الأبيض</h2>
+        <div id="msgs" style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'>
+            جاري التحقق من ملفات النظام...
+        </div>
     </div>
-
-    <!-- الشاشة التي تظهر بها أكواد التهكير -->
-    <pre id="console">Initializing PS4 9.00 Exploit Chain...</pre>
-
-    <div class="footer-section">
-      <span>الإدارة: أبو طارق</span>
-      <span>قسم الصيانة: أبو زيد</span>
-    </div>
-  </div>
-
-  <!-- ملفات الجيلبريك الأساسية (تعمل بنفس الميكانيكية) -->
-  <script src="payload.js"></script>
-  <script type="module" src="./alert.mjs"></script>
-
 </body>
 </html>

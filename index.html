@@ -30,8 +30,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
 
     body {
-      background-color: #f4f6f9; /* ثيم أبيض/فاتح */
-      color: #333333;
+      background-color: #f0f0f0; /* ثيم أبيض/فاتح بدلاً من الصورة */
+      color: #000000; /* نص أسود */
       font-family: Arial, sans-serif;
       height: 100vh;
       display: flex;
@@ -46,50 +46,44 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
       padding: 40px;
       border-radius: 20px;
       text-align: center;
       width: 100%;
       max-width: 700px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-      border: 1px solid #e0e0e0;
+      box-shadow: 8px 10px 2px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 32px;
       margin-bottom: 20px;
-      color: #222222;
-      line-height: 1.4;
     }
 
     #console {
       font-family: 'logging', monospace;
       font-size: 18px;
       text-align: left;
-      background: #ffffff;
+      background: rgba(230, 230, 230, 0.8);
       color: #000000;
       padding: 20px;
       border-radius: 10px;
       white-space: pre-wrap;
       height: 300px;
       overflow-y: auto;
-      border: 1px solid #cccccc;
-      box-shadow: inset 0px 2px 5px rgba(0,0,0,0.05);
     }
   </style>
 </head>
 <body>
   <script>
-    // التأكد من أن applicationCache مدعوم وموجود قبل استدعاء status
-    if (typeof window.applicationCache !== 'undefined' && window.applicationCache.status === 0) {
+    if (window.applicationCache && window.applicationCache.status === 0) {
       window.location.replace("cache.html");
     }
   </script>
 
   <div class="card">
-    <h1>شراع الابيض - المهندس انور 07711359997<br>PS4 9.00 GoldHEN</h1>
+    <h1>شراع الابيض - المهندس انور 07711359997</h1>
     <pre id="console"></pre>
   </div>
 

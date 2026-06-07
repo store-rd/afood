@@ -1,93 +1,91 @@
-<!--
-Copyright (C) 2023-2025 anonymous
-
-This file is part of PSFree.
-
-PSFree is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-
-PSFree is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
-
 <!DOCTYPE html>
-<html lang="en">
+<html manifest="NabeelOffice.cache">
 <head>
-  <meta charset="UTF-8">
-  <title> شراع الابيض - المهندس انور 07711359997 9.00 </title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #ffffff;
-      color: black;
-      font-family: Arial, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    @font-face {
-      font-family: 'logging';
-      src: url('fonts/LiberationMono-Regular.ttf');
-    }
-
-    .card {
-      background: rgba(220, 220, 220, 0.8);
-      backdrop-filter: blur(10px);
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-      width: 100%;
-      max-width: 700px;
-      box-shadow: 8px 10px 2px rgba(0, 0, 0, 0.178);
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    #console {
-      font-family: 'logging', monospace;
-      font-size: 18px;
-      text-align: left;
-      background: rgba(255, 255, 255, 0.9);
-      color: black;
-      padding: 20px;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      height: 300px;
-      overflow-y: auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشراع الابيض</title>
+    <style>
+        body {
+            /* ألوان خلفية متدرجة، مريحة للعين وخفيفة جداً لمنع أخطاء الذاكرة في متصفح PS4 */
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 85%;
+            max-width: 650px;
+        }
+        h1 {
+            font-size: 3.5em;
+            margin: 0 0 10px 0;
+            color: #e0f7fa;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+        h3 {
+            color: #b2ebf2;
+            margin: 0 0 20px 0;
+            font-weight: normal;
+        }
+        #msgs {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #ffeb3b;
+            min-height: 30px;
+        }
+        .credits {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.2em;
+            color: #cfd8dc;
+        }
+        .credits span {
+            color: #00e676;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+    </style>
 </head>
 <body>
-  <script>
-    if (window.applicationCache.status === 0) {
-      window.location.replace("cache.html");
-    }
-  </script>
 
-  <div class="card">
-    <h1>شراع الابيض - المهندس انور 07711359997 9.00</h1>
-    <pre id="console"></pre>
-  </div>
+    <div class="container">
+        <h1>الشراع الابيض</h1>
+        <h3>PS4 9.00 Jailbreak</h3>
+        
+        <!-- هنا تظهر رسائل النظام مثل "ادخل الفلاش" وغيرها -->
+        <div id="msgs">جاري تحميل الثغرة... يرجى الانتظار</div>
 
-  <script src="payload.js"></script>
-  <script type="module" src="./alert.mjs"></script>
+        <div class="credits">
+            تعديل وتطوير: <span>المهندس انور 07711359997</span>
+        </div>
+    </div>
+
+    <script>
+        // تهيئة المتغيرات الأساسية التي تحتاجها سكريبتات الثغرة لعرض الرسائل
+        window.msgs = document.getElementById('msgs');
+    </script>
+
+    <!-- استدعاء ملفات الثغرة (PSFree) دون أي مساس بآلية عملها لضمان استقرار 100% -->
+    <script src="payload.js"></script>
+    <script type="module" src="config.mjs"></script>
+    <script type="module" src="alert.mjs"></script>
+    <script type="module" src="lapse.mjs"></script>
+    <script type="module" src="send.mjs"></script>
+    <script type="module" src="psfree.mjs"></script>
+
 </body>
 </html>

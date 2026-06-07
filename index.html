@@ -34,35 +34,44 @@
     }
 </style>
 <script>
-history.replaceState(null,null,'index.html');
-var histlength = history.length;
-history.go(-histlength);
-
-function DLProgress(e) {
-    Percent = (Math.round(e.loaded / e.total * 100));
-    msgs.innerHTML = "جاري تثبيت التفعيل بدون إنترنت ... " + Percent + "%";
+try {
+    history.replaceState(null,null,'index.html');
+    var histlength=history.length;
+    history.go(-histlength);
+} catch (e) {
+    console.warn("تعديل التاريخ غير مسموح في هذه البيئة (مثل المعاينة أو Blob URL): ", e);
 }
 
-function DisplayCacheProgress() {
-    setTimeout(function() {
-        msgs.innerHTML = "تم تثبيت الكاش بنجاح! يمكنك إغلاق الإنترنت الآن.";
-    }, 2000);
-    setTimeout(function() {
-        location.reload();
-    }, 4000);
+function DLProgress(e){
+    var msgs = document.getElementById('msgs');
+    var Percent=(Math.round(e.loaded / e.total * 100));
+    if(msgs) msgs.innerHTML="جاري تثبيت الكاش بدون إنترنت ... " + Percent + "%"
+};
+
+function DisplayCacheProgress(){
+    var msgs = document.getElementById('msgs');
+    setTimeout(function(){ if(msgs) msgs.innerHTML="تم تثبيت الكاش بنجاح!";},2000);
+    setTimeout(function(){location.reload();},3000);
 }
 
-window.applicationCache.addEventListener("progress", DLProgress, false);
-window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+// التحقق من دعم المتصفح لخاصية applicationCache لتجنب خطأ undefined
+if (typeof window.applicationCache !== 'undefined') {
+    window.applicationCache.addEventListener("progress",DLProgress,false);
+    window.applicationCache.oncached=function(e){DisplayCacheProgress();};
+    window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
+} else {
+    console.warn("خاصية applicationCache غير مدعومة في هذا المتصفح.");
+    window.onload = function() {
+        var msgs = document.getElementById('msgs');
+        if(msgs) msgs.innerHTML = "هذا المتصفح لا يدعم التخزين المؤقت. يرجى الفتح من متصفح PS4.";
+    };
+}
 </script>
 </head>
-<body>
+<body style="overflow:hidden">
     <div class="info-card">
         <h2>الشراع الأبيض</h2>
-        <div id="msgs" style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'>
-            جاري التحقق من ملفات النظام...
-        </div>
+        <div id="msgs" style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'>جاري التحقق...</div>
     </div>
 </body>
 </html>

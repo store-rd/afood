@@ -1,77 +1,99 @@
-<html manifest="NabeelOffice.cache">
+<!--
+Copyright (C) 2023-2025 anonymous
+
+This file is part of PSFree.
+
+PSFree is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+PSFree is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Anwar - PS4 9.00 GoldHEN</title>
-<style>
+  <meta charset="UTF-8">
+  <title> شراع الابيض - المهندس انور 07711359997 - 9.00 </title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-        background-color: #07090f;
-        background-image: linear-gradient(135deg, #050914 0%, #0a1930 100%);
-        color: #00e5ff;
-        font-family: system-ui, -apple-system, sans-serif;
-        font-size: 28px;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+      background-color: #f4f6f9; /* ثيم أبيض/فاتح */
+      color: #333333;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
-    .info-card {
-        background-color: #111424;
-        padding: 40px 60px;
-        border: 2px solid rgba(0, 229, 255, 0.3);
-        border-radius: 15px;
-        box-shadow: 0 0 30px rgba(0, 81, 255, 0.4);
-        text-align: center;
+
+    @font-face {
+      font-family: 'logging';
+      src: url('fonts/LiberationMono-Regular.ttf');
     }
-    h2 {
-        color: #ffffff;
-        font-size: 38px;
-        margin-top: 0;
-        margin-bottom: 25px;
-        text-shadow: 0 0 10px #0051ff;
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e0e0e0;
     }
-</style>
-<script>
-try {
-    history.replaceState(null,null,'index.html');
-    var histlength=history.length;
-    history.go(-histlength);
-} catch (e) {
-    console.warn("تعديل التاريخ غير مسموح في هذه البيئة (مثل المعاينة أو Blob URL): ", e);
-}
 
-function DLProgress(e){
-    var msgs = document.getElementById('msgs');
-    var Percent=(Math.round(e.loaded / e.total * 100));
-    if(msgs) msgs.innerHTML="جاري تثبيت الكاش بدون إنترنت ... " + Percent + "%"
-};
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #222222;
+      line-height: 1.4;
+    }
 
-function DisplayCacheProgress(){
-    var msgs = document.getElementById('msgs');
-    setTimeout(function(){ if(msgs) msgs.innerHTML="تم تثبيت الكاش بنجاح!";},2000);
-    setTimeout(function(){location.reload();},3000);
-}
-
-// التحقق من دعم المتصفح لخاصية applicationCache لتجنب خطأ undefined
-if (typeof window.applicationCache !== 'undefined') {
-    window.applicationCache.addEventListener("progress",DLProgress,false);
-    window.applicationCache.oncached=function(e){DisplayCacheProgress();};
-    window.applicationCache.onupdateready=function(e){DisplayCacheProgress();};
-} else {
-    console.warn("خاصية applicationCache غير مدعومة في هذا المتصفح.");
-    window.onload = function() {
-        var msgs = document.getElementById('msgs');
-        if(msgs) msgs.innerHTML = "هذا المتصفح لا يدعم التخزين المؤقت. يرجى الفتح من متصفح PS4.";
-    };
-}
-</script>
+    #console {
+      font-family: 'logging', monospace;
+      font-size: 18px;
+      text-align: left;
+      background: #ffffff;
+      color: #000000;
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #cccccc;
+      box-shadow: inset 0px 2px 5px rgba(0,0,0,0.05);
+    }
+  </style>
 </head>
-<body style="overflow:hidden">
-    <div class="info-card">
-        <h2>الشراع الأبيض</h2>
-        <div id="msgs" style='-webkit-font-feature-settings:"tnum";font-feature-settings:"tnum";'>جاري التحقق...</div>
-    </div>
+<body>
+  <script>
+    // التأكد من أن applicationCache مدعوم وموجود قبل استدعاء status
+    if (typeof window.applicationCache !== 'undefined' && window.applicationCache.status === 0) {
+      window.location.replace("cache.html");
+    }
+  </script>
+
+  <div class="card">
+    <h1>شراع الابيض - المهندس انور 07711359997<br>PS4 9.00 GoldHEN</h1>
+    <pre id="console"></pre>
+  </div>
+
+  <script src="payload.js"></script>
+  <script type="module" src="./alert.mjs"></script>
 </body>
 </html>
